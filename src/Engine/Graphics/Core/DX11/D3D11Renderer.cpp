@@ -41,38 +41,38 @@ void D3D11Renderer::Initialize(RendererFlags flags)
 	}
 
 	// TODO: remove - this is just for temporary testing, this needs to be abstracted
-	//D3D11_DEPTH_STENCIL_DESC dsDesc;
-	//dsDesc.DepthEnable = false;
-	//dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-	//dsDesc.DepthFunc = D3D11_COMPARISON_ALWAYS;
-	//dsDesc.StencilEnable = false;
-	//dsDesc.StencilReadMask = 0xFF;
-	//dsDesc.StencilWriteMask = 0xFF;
-	//dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-	//dsDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
-	//dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-	//dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-	//dsDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-	//dsDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
-	//dsDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-	//dsDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
-	//m_pDevice->CreateDepthStencilState(&dsDesc, &m_pDepthStencilState);
-	//m_pContext->OMSetDepthStencilState(m_pDepthStencilState, 0);
+	D3D11_DEPTH_STENCIL_DESC dsDesc;
+	dsDesc.DepthEnable = false;
+	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	dsDesc.DepthFunc = D3D11_COMPARISON_ALWAYS;
+	dsDesc.StencilEnable = false;
+	dsDesc.StencilReadMask = 0xFF;
+	dsDesc.StencilWriteMask = 0xFF;
+	dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	dsDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	dsDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	dsDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	m_pDevice->CreateDepthStencilState(&dsDesc, &m_pDepthStencilState);
+	m_pContext->OMSetDepthStencilState(m_pDepthStencilState, 0);
 	// TODO: remove - this is just for temporary testing, this needs to be abstracted
 
 	// TODO: remove - this is just for temporary testing, this needs to be abstracted
-	//D3D11_BLEND_DESC omDesc;
-	//ZeroMemory(&omDesc, sizeof(D3D11_BLEND_DESC));
-	//omDesc.RenderTarget[0].BlendEnable = true;
-	//omDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	//omDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	//omDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	//omDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	//omDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
-	//omDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	//omDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-	//m_pDevice->CreateBlendState(&omDesc, &m_pBlendState);
-	//m_pContext->OMSetBlendState(m_pBlendState, 0, 0xffffffff);
+	D3D11_BLEND_DESC omDesc;
+	ZeroMemory(&omDesc, sizeof(D3D11_BLEND_DESC));
+	omDesc.RenderTarget[0].BlendEnable = true;
+	omDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	omDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	omDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	omDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	omDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+	omDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	omDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	m_pDevice->CreateBlendState(&omDesc, &m_pBlendState);
+	m_pContext->OMSetBlendState(m_pBlendState, 0, 0xffffffff);
 	// TODO: remove - this is just for temporary testing, this needs to be abstracted
 }
 

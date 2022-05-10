@@ -17,9 +17,6 @@ public:
 	void LoadChunk_Server(const Point2i& chunkIndex, Scene* pScene);
 
 private:
-	bool IsStreamingAvailable() const;
-
-private:
 	ByteStream m_WorldFileStream;
 	std::unordered_map<Point2i, uint, Point2i::Hasher> m_ChunkFilePositions;
 };

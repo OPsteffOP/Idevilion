@@ -36,6 +36,7 @@ ClientGame::ClientGame(const std::string& worldServerIP, uint worldServerPort, c
 
 ClientGame::~ClientGame()
 {
+	ThreadPool::GetInstance()->Flush();
 	SAFE_DELETE(m_pWorldServerClient);
 	SAFE_DELETE(m_pScene);
 }

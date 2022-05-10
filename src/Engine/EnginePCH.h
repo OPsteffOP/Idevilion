@@ -50,3 +50,4 @@
 #include "Utils.h"
 #include "CommandLine.h"
 #include "Paths.h"
+#include "ThreadPool.h"
