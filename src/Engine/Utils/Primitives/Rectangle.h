@@ -2,16 +2,38 @@
 
 #pragma once
 
-struct Rect4f
+template<typename T>
+struct Rect4
 {
-	Rect4f() = default;
-	Rect4f(float x, float y, float width, float height);
+	constexpr Rect4() = default;
+	constexpr Rect4(T x, T y, T width, T height)
+		: x(x)
+		, y(y)
+		, width(width)
+		, height(height)
+	{}
 
-	bool IsOverlapping(const Rect4f& rectangle) const;
-	bool IsInside(const Point2f& point) const;
+	bool IsOverlapping(const Rect4<T>& rectangle) const
+	{
+		return !(x > rectangle.x + rectangle.width ||
+			rectangle.x > x + width ||
+			y > rectangle.y + rectangle.height ||
+			rectangle.y > y + height);
+	}
 
-	float x;
-	float y;
-	float width;
-	float height;
+	bool IsInside(const Point2<T>& point) const
+	{
+		return point.x >= x &&
+			point.x < x + width &&
+			point.y >= y &&
+			point.y < y + height;
+	}
+
+	T x;
+	T y;
+	T width;
+	T height;
 };
+
+using Rect4f = Rect4<float>;
+using Rect4i = Rect4<int>;

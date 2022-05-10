@@ -3,6 +3,7 @@
 #include "EnginePCH.h"
 #include "Scene.h"
 
+#include "CameraManager.h"
 #include "GameObject.h"
 #include "Camera.h"
 
@@ -19,8 +20,21 @@ Scene::~Scene()
 
 void Scene::Update()
 {
+	Rect4i visibleChunksRect(INT_MIN / 2, INT_MIN / 2, INT_MAX, INT_MAX); // if there's no camera, just update & render everything
+	if (CameraManager::GetInstance()->GetActiveMainCamera() != nullptr)
+	{
+		GetVisibleChunksRect();
+		visibleChunksRect.x -= 1; // adding an extra chunk on each side for the update to avoid moving objects suddenly stop moving and not coming in view anymore
+		visibleChunksRect.y -= 1;
+		visibleChunksRect.width += 1;
+		visibleChunksRect.height += 1;
+	}
+
 	for (const std::pair<Point2i, Chunk>& pair : m_LoadedChunks)
 	{
+		if (!visibleChunksRect.IsInside(pair.first))
+			continue;
+
 		for (GameObject* pGameObject : pair.second.pGameObjects)
 		{
 			if (pGameObject != nullptr)
@@ -34,8 +48,13 @@ void Scene::Update()
 
 void Scene::Render()
 {
+	const Rect4i visibleChunksRect = GetVisibleChunksRect();
+
 	for (const std::pair<Point2i, Chunk>& pair : m_LoadedChunks)
 	{
+		if (!visibleChunksRect.IsInside(pair.first))
+			continue;
+
 		for (GameObject* pGameObject : pair.second.pGameObjects)
 		{
 			if (pGameObject != nullptr)
@@ -45,7 +64,6 @@ void Scene::Render()
 }
 
 #ifdef DEV_DEBUG_BUILD
-#include "CameraManager.h"
 #include "GraphicsFactory.h"
 void Scene::DebugRender()
 {
@@ -190,4 +208,17 @@ void Scene::CleanupDeletedGameObjects()
 		std::vector<GameObject*>& pGameObjects = pair.second.pGameObjects;
 		pGameObjects.erase(std::remove(pGameObjects.begin(), pGameObjects.end(), nullptr), pGameObjects.end());
 	}
+}
+
+Rect4i Scene::GetVisibleChunksRect() const
+{
+	const Camera* pCamera = CameraManager::GetInstance()->GetActiveMainCamera();
+	const Rect4f worldRectInView = pCamera->GetWorldRectangleInView();
+
+	const int baseChunkIndexX = (int)std::floor(worldRectInView.x / (float)CHUNK_SIZE.x);
+	const int baseChunkIndexY = (int)std::floor(worldRectInView.y / (float)CHUNK_SIZE.y);
+	const int chunksCountX = (int)std::ceilf(worldRectInView.width / CHUNK_SIZE.x) + 1;
+	const int chunksCountY = (int)std::ceilf(worldRectInView.height / CHUNK_SIZE.y) + 1;
+
+	return Rect4i(baseChunkIndexX, baseChunkIndexY, chunksCountX, chunksCountY);
 }

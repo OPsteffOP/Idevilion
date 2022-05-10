@@ -12,5 +12,9 @@ public:
 	void UpdateChunkLoading(Camera* pCamera);
 
 private:
+	void AttemptLoadChunk(const Point2i& chunkIndex);
+
+private:
 	WorldStreamer m_WorldStreamer;
+	std::mutex m_AddLoadedChunksMutex;
 };

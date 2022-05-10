@@ -190,6 +190,33 @@ void ByteStream::WritePoint2f(const Point2f& data)
 	}
 }
 
+void ByteStream::WriteRect4i(const Rect4i& data)
+{
+	{
+		BigEndianData endian(data.x);
+		int endianData = endian.GetDataBigEndian();
+		m_pImpl->Write(&endianData, sizeof(endianData));
+	}
+
+	{
+		BigEndianData endian(data.y);
+		int endianData = endian.GetDataBigEndian();
+		m_pImpl->Write(&endianData, sizeof(endianData));
+	}
+
+	{
+		BigEndianData endian(data.width);
+		int endianData = endian.GetDataBigEndian();
+		m_pImpl->Write(&endianData, sizeof(endianData));
+	}
+
+	{
+		BigEndianData endian(data.height);
+		int endianData = endian.GetDataBigEndian();
+		m_pImpl->Write(&endianData, sizeof(endianData));
+	}
+}
+
 void ByteStream::WriteRect4f(const Rect4f& data)
 {
 	{
@@ -413,6 +440,37 @@ Point2f ByteStream::ReadPoint2f() const
 		m_pImpl->Read(&data.y, sizeof(data.y));
 		BigEndianData endian(data.y, Endian::BIG_ENDIAN);
 		data.y = endian.GetNativeData();
+	}
+
+	return data;
+}
+
+Rect4i ByteStream::ReadRect4i() const
+{
+	Rect4i data;
+
+	{
+		m_pImpl->Read(&data.x, sizeof(data.x));
+		BigEndianData endian(data.x, Endian::BIG_ENDIAN);
+		data.x = endian.GetNativeData();
+	}
+
+	{
+		m_pImpl->Read(&data.y, sizeof(data.y));
+		BigEndianData endian(data.y, Endian::BIG_ENDIAN);
+		data.y = endian.GetNativeData();
+	}
+
+	{
+		m_pImpl->Read(&data.width, sizeof(data.width));
+		BigEndianData endian(data.width, Endian::BIG_ENDIAN);
+		data.width = endian.GetNativeData();
+	}
+
+	{
+		m_pImpl->Read(&data.height, sizeof(data.height));
+		BigEndianData endian(data.height, Endian::BIG_ENDIAN);
+		data.height = endian.GetNativeData();
 	}
 
 	return data;

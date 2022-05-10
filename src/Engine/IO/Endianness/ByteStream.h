@@ -58,6 +58,7 @@ public:
 	void WriteString(const std::string& data);
 	void WritePoint2i(const Point2i& data);
 	void WritePoint2f(const Point2f& data);
+	void WriteRect4i(const Rect4i& data);
 	void WriteRect4f(const Rect4f& data);
 	void WriteNetworkUUID(const NetworkUUID& data);
 
@@ -78,6 +79,7 @@ public:
 	std::string ReadString(uint size) const;
 	Point2i ReadPoint2i() const;
 	Point2f ReadPoint2f() const;
+	Rect4i ReadRect4i() const;
 	Rect4f ReadRect4f() const;
 	NetworkUUID ReadNetworkUUID() const;
 

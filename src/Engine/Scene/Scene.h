@@ -39,4 +39,6 @@ protected:
 private:
 	void ValidateChunks();
 	void CleanupDeletedGameObjects();
+
+	Rect4i GetVisibleChunksRect() const;
 };
