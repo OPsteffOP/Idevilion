@@ -1,0 +1,15 @@
+name: Android
+deploy: true
+project_type: Application
+build_directory: $(SolutionDir)..\bin\builds\Android\$(Configuration)\$(Platform)\
+intermediate_directory: $(SolutionDir)..\bin\intermediate\Android\$(Configuration)\$(Platform)\
+configuration: Debug
+configuration: Release
+configuration: Retail
+platform: Arm64
+language_type: android
+language_standard: cpp17
+warning_level: Level4
+warnings_as_errors: true
+use_pch: false
+project_dependency: BloodPath-Client

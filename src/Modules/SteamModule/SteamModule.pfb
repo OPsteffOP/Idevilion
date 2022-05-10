@@ -1,0 +1,51 @@
+name: SteamModule
+folder: Modules
+project_type: DynamicLibrary
+build_directory: $(SolutionDir)..\bin\builds\Modules\SteamModule\$(Configuration)\$(Platform)\
+intermediate_directory: $(SolutionDir)..\bin\intermediate\Modules\SteamModule\$(Configuration)\$(Platform)\
+configuration: Debug
+configuration: Release
+configuration: Retail
+platform: x64
+language_standard: cpp17
+warning_level: Level4
+warnings_as_errors: true
+use_pch: true
+precompiled_header_file: SteamModulePCH.h
+precompiled_source_file: SteamModulePCH.cpp
+source_extension: .cpp
+header_extension: .h
+include_directory: Debug|x64 $(SolutionDir)..\external\Steam\include
+include_directory: Release|x64 $(SolutionDir)..\external\Steam\include
+include_directory: Retail|x64 $(SolutionDir)..\external\Steam\include
+library_directory: Debug|x64 $(SolutionDir)..\external\Steam\lib
+library_directory: Release|x64 $(SolutionDir)..\external\Steam\lib
+library_directory: Retail|x64 $(SolutionDir)..\external\Steam\lib
+dependency: Debug|x64 steam_api64.lib
+dependency: Release|x64 steam_api64.lib
+dependency: Retail|x64 steam_api64.lib
+pre_build_event: Debug|x64 xcopy "$(SolutionDir)..\external\Steam\bin\steam_api64.dll" "$(SolutionDir)..\bin\builds\Modules\SteamModule\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Release|x64 xcopy "$(SolutionDir)..\external\Steam\bin\steam_api64.dll" "$(SolutionDir)..\bin\builds\Modules\SteamModule\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Retail|x64 xcopy "$(SolutionDir)..\external\Steam\bin\steam_api64.dll" "$(SolutionDir)..\bin\builds\Modules\SteamModule\$(Configuration)\$(Platform)\" /Y
+post_build_event: Debug|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\SteamModule\$(Configuration)\$(Platform)\SteamModule.dll" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\" /Y
+post_build_event: Release|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\SteamModule\$(Configuration)\$(Platform)\SteamModule.dll" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\" /Y
+post_build_event: Retail|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\SteamModule\$(Configuration)\$(Platform)\SteamModule.dll" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\" /Y
+post_build_event: Debug|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\SteamModule\$(Configuration)\$(Platform)\SteamModule.lib" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\" /Y
+post_build_event: Release|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\SteamModule\$(Configuration)\$(Platform)\SteamModule.lib" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\" /Y
+post_build_event: Retail|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\SteamModule\$(Configuration)\$(Platform)\SteamModule.lib" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\" /Y
+post_build_event: Debug|x64 xcopy "$(SolutionDir)Modules\SteamModule\SteamModule.h" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\" /Y
+post_build_event: Release|x64 xcopy "$(SolutionDir)Modules\SteamModule\SteamModule.h" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\" /Y
+post_build_event: Retail|x64 xcopy "$(SolutionDir)Modules\SteamModule\SteamModule.h" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\" /Y
+project_dependency: Engine
+
+macro: Debug|x64 BP_CONFIGURATION_DEBUG
+macro: Release|x64 BP_CONFIGURATION_RELEASE
+macro: Retail|x64 BP_CONFIGURATION_RETAIL
+
+macro: Debug|x64 BP_PLATFORM_X64
+macro: Release|x64 BP_PLATFORM_X64
+macro: Retail|x64 BP_PLATFORM_X64
+
+macro: Debug|x64 BP_MODULE_EXPORT
+macro: Release|x64 BP_MODULE_EXPORT
+macro: Retail|x64 BP_MODULE_EXPORT

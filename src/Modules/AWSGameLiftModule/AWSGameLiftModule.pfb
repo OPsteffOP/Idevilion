@@ -1,0 +1,54 @@
+name: AWSGameLiftModule
+folder: Modules
+project_type: DynamicLibrary
+build_directory: $(SolutionDir)..\bin\builds\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\
+intermediate_directory: $(SolutionDir)..\bin\intermediate\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\
+configuration: Debug
+configuration: Release
+configuration: Retail
+platform: x64
+language_standard: cpp17
+warning_level: Level4
+warnings_as_errors: true
+use_pch: true
+precompiled_header_file: AWSGameLiftModulePCH.h
+precompiled_source_file: AWSGameLiftModulePCH.cpp
+source_extension: .cpp
+header_extension: .h
+include_directory: Debug|x64 $(SolutionDir)..\external\AWS-GameLift\include
+include_directory: Release|x64 $(SolutionDir)..\external\AWS-GameLift\include
+include_directory: Retail|x64 $(SolutionDir)..\external\AWS-GameLift\include
+library_directory: Debug|x64 $(SolutionDir)..\external\AWS-GameLift\lib
+library_directory: Release|x64 $(SolutionDir)..\external\AWS-GameLift\lib
+library_directory: Retail|x64 $(SolutionDir)..\external\AWS-GameLift\lib
+dependency: Debug|x64 aws-cpp-sdk-gamelift.lib
+dependency: Release|x64 aws-cpp-sdk-gamelift.lib
+dependency: Retail|x64 aws-cpp-sdk-gamelift.lib
+dependency: Debug|x64 aws-cpp-sdk-core.lib
+dependency: Release|x64 aws-cpp-sdk-core.lib
+dependency: Retail|x64 aws-cpp-sdk-core.lib
+pre_build_event: Debug|x64 xcopy "$(SolutionDir)..\external\AWS-GameLift\bin\" "$(SolutionDir)..\bin\builds\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Release|x64 xcopy "$(SolutionDir)..\external\AWS-GameLift\bin\" "$(SolutionDir)..\bin\builds\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Retail|x64 xcopy "$(SolutionDir)..\external\AWS-GameLift\bin\" "$(SolutionDir)..\bin\builds\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\" /Y
+post_build_event: Debug|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\AWSGameLiftModule.dll" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\" /Y
+post_build_event: Release|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\AWSGameLiftModule.dll" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\" /Y
+post_build_event: Retail|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\AWSGameLiftModule.dll" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\" /Y
+post_build_event: Debug|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\AWSGameLiftModule.lib" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\" /Y
+post_build_event: Release|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\AWSGameLiftModule.lib" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\" /Y
+post_build_event: Retail|x64 xcopy "$(SolutionDir)..\bin\builds\Modules\AWSGameLiftModule\$(Configuration)\$(Platform)\AWSGameLiftModule.lib" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\" /Y
+post_build_event: Debug|x64 xcopy "$(SolutionDir)Modules\AWSGameLiftModule\AWSGameLiftModule.h" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\" /Y
+post_build_event: Release|x64 xcopy "$(SolutionDir)Modules\AWSGameLiftModule\AWSGameLiftModule.h" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\" /Y
+post_build_event: Retail|x64 xcopy "$(SolutionDir)Modules\AWSGameLiftModule\AWSGameLiftModule.h" "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\" /Y
+project_dependency: Engine
+
+macro: Debug|x64 BP_CONFIGURATION_DEBUG
+macro: Release|x64 BP_CONFIGURATION_RELEASE
+macro: Retail|x64 BP_CONFIGURATION_RETAIL
+
+macro: Debug|x64 BP_PLATFORM_X64
+macro: Release|x64 BP_PLATFORM_X64
+macro: Retail|x64 BP_PLATFORM_X64
+
+macro: Debug|x64 BP_MODULE_EXPORT
+macro: Release|x64 BP_MODULE_EXPORT
+macro: Retail|x64 BP_MODULE_EXPORT

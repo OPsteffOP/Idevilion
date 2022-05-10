@@ -1,0 +1,17 @@
+name: Engine
+project_type: StaticLibrary
+build_directory: $(SolutionDir)..\bin\builds\Engine\$(Configuration)\$(Platform)\
+intermediate_directory: $(SolutionDir)..\bin\intermediate\Engine\$(Configuration)\$(Platform)\
+configuration: Debug
+configuration: Release
+configuration: Retail
+language_standard: cpp17
+use_pch: true
+precompiled_header_file: EnginePCH.h
+precompiled_source_file: EnginePCH.cpp
+source_extension: .cpp
+header_extension: .h
+
+macro: Debug|x64 BP_CONFIGURATION_DEBUG
+macro: Release|x64 BP_CONFIGURATION_RELEASE
+macro: Retail|x64 BP_CONFIGURATION_RETAIL

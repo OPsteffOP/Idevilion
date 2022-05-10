@@ -1,0 +1,23 @@
+include: BloodPath-Client.pfb
+
+project_type: DynamicLibrary
+platform: Arm64
+
+warning_level: Level1
+warnings_as_errors: false
+
+include_directory: Debug|Arm64 $(SolutionDir)GameShared
+include_directory: Release|Arm64 $(SolutionDir)GameShared
+include_directory: Retail|Arm64 $(SolutionDir)GameShared
+
+macro: Debug|Arm64 BP_CONFIGURATION_DEBUG
+macro: Release|Arm64 BP_CONFIGURATION_RELEASE
+macro: Retail|Arm64 BP_CONFIGURATION_RETAIL
+
+macro: Debug|Arm64 BP_PLATFORM_ARM64
+macro: Release|Arm64 BP_PLATFORM_ARM64
+macro: Retail|Arm64 BP_PLATFORM_ARM64
+
+macro: Debug|Arm64 BP_PLATFORM_ANDROID
+macro: Release|Arm64 BP_PLATFORM_ANDROID
+macro: Retail|Arm64 BP_PLATFORM_ANDROID

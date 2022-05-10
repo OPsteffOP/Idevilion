@@ -1,0 +1,14 @@
+include: Engine.pfb
+
+platform: Arm64
+
+warning_level: Level1
+warnings_as_errors: false
+
+macro: Debug|Arm64 BP_PLATFORM_ARM64
+macro: Release|Arm64 BP_PLATFORM_ARM64
+macro: Retail|Arm64 BP_PLATFORM_ARM64
+
+macro: Debug|Arm64 BP_PLATFORM_ANDROID
+macro: Release|Arm64 BP_PLATFORM_ANDROID
+macro: Retail|Arm64 BP_PLATFORM_ANDROID

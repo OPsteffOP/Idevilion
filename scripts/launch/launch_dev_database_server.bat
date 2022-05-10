@@ -1,0 +1,1 @@
+START C:\Users\Administrator\Perforce\STEFF-DESKTOP\P3-Placeholder\Dev\bin\builds\BloodPath-DatabaseServer\Debug\x64\BloodPath-DatabaseServer.exe -server_port=123 -server_database=servers -user_database=users

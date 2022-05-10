@@ -1,0 +1,23 @@
+name: UnitTests-Engine
+project_type: Application
+build_directory: $(SolutionDir)..\..\bin\builds\Tests\UnitTests-Engine\$(Configuration)\$(Platform)\
+intermediate_directory: $(SolutionDir)..\..\bin\intermediate\Tests\UnitTests-Engine\$(Configuration)\$(Platform)\
+configuration: Debug
+configuration: Release
+configuration: Retail
+platform: x64
+language_standard: cpp17
+warning_level: Level4
+warnings_as_errors: true
+use_pch: false
+source_extension: .cpp
+header_extension: .h
+project_dependency: Engine
+
+macro: Debug|x64 BP_CONFIGURATION_DEBUG
+macro: Release|x64 BP_CONFIGURATION_RELEASE
+macro: Retail|x64 BP_CONFIGURATION_RETAIL
+
+macro: Debug|x64 BP_PLATFORM_X64
+macro: Release|x64 BP_PLATFORM_X64
+macro: Retail|x64 BP_PLATFORM_X64

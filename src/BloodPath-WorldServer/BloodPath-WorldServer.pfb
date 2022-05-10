@@ -1,0 +1,34 @@
+name: BloodPath-WorldServer
+folder: Servers
+project_type: Application
+build_directory: $(SolutionDir)..\bin\builds\BloodPath-WorldServer\$(Configuration)\$(Platform)\
+intermediate_directory: $(SolutionDir)..\bin\intermediate\BloodPath-WorldServer\$(Configuration)\$(Platform)\
+configuration: Debug
+configuration: Release
+configuration: Retail
+platform: x64
+language_standard: cpp17
+warning_level: Level4
+warnings_as_errors: true
+use_pch: true
+precompiled_header_file: WorldServerPCH.h
+precompiled_source_file: WorldServerPCH.cpp
+source_extension: .cpp
+header_extension: .h
+project_dependency: Engine
+
+include_directory: Debug|x64 $(SolutionDir)GameShared
+include_directory: Release|x64 $(SolutionDir)GameShared
+include_directory: Retail|x64 $(SolutionDir)GameShared
+
+macro: Debug|x64 BP_CONFIGURATION_DEBUG
+macro: Release|x64 BP_CONFIGURATION_RELEASE
+macro: Retail|x64 BP_CONFIGURATION_RETAIL
+
+macro: Debug|x64 BP_PLATFORM_X64
+macro: Release|x64 BP_PLATFORM_X64
+macro: Retail|x64 BP_PLATFORM_X64
+
+macro: Debug|x64 BP_PLATFORM_WINDOWS
+macro: Release|x64 BP_PLATFORM_WINDOWS
+macro: Retail|x64 BP_PLATFORM_WINDOWS

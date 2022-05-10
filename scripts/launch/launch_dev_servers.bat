@@ -1,0 +1,3 @@
+CALL launch_dev_database_server.bat
+CALL launch_dev_login_server.bat
+CALL launch_dev_world_server.bat

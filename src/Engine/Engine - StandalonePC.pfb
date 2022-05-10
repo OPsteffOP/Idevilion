@@ -1,0 +1,5 @@
+include: Engine - Windows.pfb
+
+macro: Debug|x64 STANDALONE_BUILD
+macro: Release|x64 STANDALONE_BUILD
+macro: Retail|x64 STANDALONE_BUILD

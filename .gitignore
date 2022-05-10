@@ -1,0 +1,10 @@
+/src/.vs/
+/tools/src/.vs/
+/bin/
+/tools/bin/
+
+*.log
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user

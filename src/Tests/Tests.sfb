@@ -1,0 +1,3 @@
+name: Tests
+project: UnitTests-Engine/UnitTests-Engine.pfb
+project: ../Engine/Engine - StandalonePC.pfb

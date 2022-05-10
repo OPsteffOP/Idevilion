@@ -1,0 +1,4 @@
+name: Tools
+project: DatabaseWriter/DatabaseWriter.pfb
+project: CodeMacroFinder/CodeMacroFinder.pfb
+project: ../../src/Engine/Engine - Windows.pfb

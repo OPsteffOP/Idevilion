@@ -1,0 +1,241 @@
+// Folder: IO/Devices
+
+#pragma once
+
+DEFINE_ENUM(DeviceType,
+	MOUSE,
+	KEYBOARD
+);
+
+enum class InputAction
+{
+	// Mouse actions
+	MOUSE_LEFT_BUTTON = 0,
+	MOUSE_RIGHT_BUTTON,
+	MOUSE_MIDDLE_BUTTON,
+	MOUSE_SCROLL,
+	MOUSE_SIDE_BUTTON_ONE,
+	MOUSE_SIDE_BUTTON_TWO,
+	MOUSE_LEFT_DOUBLE_CLICK,
+	_COUNT_MOUSE,
+
+	// Keyboard actions
+	KEYBOARD_BACKSPACE = 0,
+	KEYBOARD_TAB,
+	KEYBOARD_CLEAR,
+	KEYBOARD_RETURN,
+	KEYBOARD_PAUSE,
+	KEYBOARD_CAPSLOCK,
+	KEYBOARD_ESCAPE,
+	KEYBOARD_SPACE,
+	KEYBOARD_PAGE_UP,
+	KEYBOARD_PAGE_DOWN,
+	KEYBOARD_END,
+	KEYBOARD_HOME,
+	KEYBOARD_LEFT_ARROW,
+	KEYBOARD_RIGHT_ARROW,
+	KEYBOARD_UP_ARROW,
+	KEYBOARD_DOWN_ARROW,
+	KEYBOARD_SELECT,
+	KEYBOARD_PRINT,
+	KEYBOARD_EXECUTE,
+	KEYBOARD_PRINT_SCREEN,
+	KEYBOARD_INSERT,
+	KEYBOARD_DELETE,
+	KEYBOARD_HELP,
+	KEYBOARD_0,
+	KEYBOARD_1,
+	KEYBOARD_2,
+	KEYBOARD_3,
+	KEYBOARD_4,
+	KEYBOARD_5,
+	KEYBOARD_6,
+	KEYBOARD_7,
+	KEYBOARD_8,
+	KEYBOARD_9,
+	KEYBOARD_A,
+	KEYBOARD_B,
+	KEYBOARD_C,
+	KEYBOARD_D,
+	KEYBOARD_E,
+	KEYBOARD_F,
+	KEYBOARD_G,
+	KEYBOARD_H,
+	KEYBOARD_I,
+	KEYBOARD_J,
+	KEYBOARD_K,
+	KEYBOARD_L,
+	KEYBOARD_M,
+	KEYBOARD_N,
+	KEYBOARD_O,
+	KEYBOARD_P,
+	KEYBOARD_Q,
+	KEYBOARD_R,
+	KEYBOARD_S,
+	KEYBOARD_T,
+	KEYBOARD_U,
+	KEYBOARD_V,
+	KEYBOARD_W,
+	KEYBOARD_X,
+	KEYBOARD_Y,
+	KEYBOARD_Z,
+	KEYBOARD_LWINDOWS,
+	KEYBOARD_RWINDOWS,
+	KEYBOARD_APPS,
+	KEYBOARD_SLEEP,
+	KEYBOARD_NUMPAD0,
+	KEYBOARD_NUMPAD1,
+	KEYBOARD_NUMPAD2,
+	KEYBOARD_NUMPAD3,
+	KEYBOARD_NUMPAD4,
+	KEYBOARD_NUMPAD5,
+	KEYBOARD_NUMPAD6,
+	KEYBOARD_NUMPAD7,
+	KEYBOARD_NUMPAD8,
+	KEYBOARD_NUMPAD9,
+	KEYBOARD_MULTIPLY,
+	KEYBOARD_ADD,
+	KEYBOARD_SEPARATOR,
+	KEYBOARD_SUBTRACT,
+	KEYBOARD_DECIMAL,
+	KEYBOARD_DIVIDE,
+	KEYBOARD_F1,
+	KEYBOARD_F2,
+	KEYBOARD_F3,
+	KEYBOARD_F4,
+	KEYBOARD_F5,
+	KEYBOARD_F6,
+	KEYBOARD_F7,
+	KEYBOARD_F8,
+	KEYBOARD_F9,
+	KEYBOARD_F10,
+	KEYBOARD_F11,
+	KEYBOARD_F12,
+	KEYBOARD_F13,
+	KEYBOARD_F14,
+	KEYBOARD_F15,
+	KEYBOARD_F16,
+	KEYBOARD_F17,
+	KEYBOARD_F18,
+	KEYBOARD_F19,
+	KEYBOARD_F20,
+	KEYBOARD_F21,
+	KEYBOARD_F22,
+	KEYBOARD_F23,
+	KEYBOARD_F24,
+	KEYBOARD_NUMLOCK,
+	KEYBOARD_SCROLLLOCK,
+	KEYBOARD_LSHIFT,
+	KEYBOARD_RSHIFT,
+	KEYBOARD_LCONTROL,
+	KEYBOARD_RCONTROL,
+	KEYBOARD_LALT,
+	KEYBOARD_RALT,
+	KEYBOARD_BROWSER_BACK,
+	KEYBOARD_BROWSER_FORWARD,
+	KEYBOARD_BROWSER_REFRESH,
+	KEYBOARD_BROWSER_STOP,
+	KEYBOARD_BROWSER_SEARCH,
+	KEYBOARD_BROWSER_FAVORITES,
+	KEYBOARD_BROWSER_HOME,
+	KEYBOARD_VOLUME_MUTE,
+	KEYBOARD_VOLUME_DOWN,
+	KEYBOARD_VOLUME_UP,
+	KEYBOARD_MEDIA_NEXT,
+	KEYBOARD_MEDIA_PREVIOUS,
+	KEYBOARD_MEDIA_STOP,
+	KEYBOARD_MEDIA_PLAY_PAUSE,
+	KEYBOARD_LAUNCH_MAIL,
+	KEYBOARD_LAUNCH_MEDIA_SELECT,
+	KEYBOARD_LAUNCH_APP1,
+	KEYBOARD_LAUNCH_APP2,
+	KEYBOARD_OEM_COLON_SEMICOLON,
+	KEYBOARD_OEM_PLUS,
+	KEYBOARD_OEM_COMMA,
+	KEYBOARD_OEM_MINUS,
+	KEYBOARD_OEM_PERIOD,
+	KEYBOARD_OEM_SLASH_QUESTIONMARK,
+	KEYBOARD_OEM_TILDE,
+	KEYBOARD_OEM_BRACKETS_OPEN,
+	KEYBOARD_OEM_BACKSLASH_PIPE,
+	KEYBOARD_OEM_BRACKETS_CLOSE,
+	KEYBOARD_OEM_QUOTES,
+	KEYBOARD_OEM_ANGLE_BRACKET,
+	_COUNT_KEYBOARD,
+
+	_COUNT = 141 // Manually update if needed
+};
+
+class InputDevice
+{
+	friend class InputManager;
+	friend class ExclusiveInputDevice;
+
+public:
+	InputDevice(DeviceType type);
+	virtual ~InputDevice();
+
+	virtual void Update() = 0;
+
+	void SetState(InputAction action, float state);
+	float GetPreviousState(InputAction action) const;
+	float GetState(InputAction action) const;
+
+	DeviceType GetType() const { return m_Type; }
+
+protected:
+	const DeviceType m_Type;
+
+	struct Action
+	{
+		float value;
+		float previousValue;
+	};
+	Action* m_pActions;
+
+private:
+	void InternalUpdate();
+
+	uint GetActionCountForDeviceType(DeviceType type) const;
+};
+
+class ExclusiveInputDevice
+{
+	friend class InputManager;
+
+public:
+	float GetPreviousState(InputAction action) const;
+	float GetState(InputAction action) const;
+
+private:
+	ExclusiveInputDevice() = default;
+
+private:
+	InputDevice* m_pDevice;
+};
+
+class MouseInputDevice : public InputDevice
+{
+public:
+	MouseInputDevice();
+
+	const Point2f& GetMousePosition() const;
+	Point2f GetDeltaMousePosition() const;
+	void SetMousePosition(const Point2f& mousePosition);
+
+	virtual bool IsCursorVisible() const = 0;
+	virtual void SetCursorVisible(bool isVisible) = 0;
+
+protected:
+	Point2f m_PreviousMousePosition;
+	Point2f m_MousePosition;
+};
+
+class KeyboardInputDevice : public InputDevice
+{
+public:
+	KeyboardInputDevice();
+
+	bool IsKeyDown(InputAction action) const;
+	bool IsKeyUp(InputAction action) const;
+};

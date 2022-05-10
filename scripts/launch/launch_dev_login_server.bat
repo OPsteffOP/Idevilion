@@ -1,0 +1,1 @@
+START C:\Users\Administrator\Perforce\STEFF-DESKTOP\P3-Placeholder\Dev\bin\builds\BloodPath-LoginServer\Debug\x64\BloodPath-LoginServer.exe -server_port=1234 -database_server=127.0.0.1 -database_port=123 -database_auth_username=server -database_auth_password=FfY/Qm2tGBWXAL/QM#PC:7RFtbc4+{#!?q+YT4HgGkrTNVg(fY

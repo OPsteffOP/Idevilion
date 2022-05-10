@@ -1,0 +1,22 @@
+include: BloodPath-Client.pfb
+
+platform: x64
+
+warning_level: Level4
+warnings_as_errors: true
+
+include_directory: Debug|x64 $(SolutionDir)GameShared
+include_directory: Release|x64 $(SolutionDir)GameShared
+include_directory: Retail|x64 $(SolutionDir)GameShared
+
+macro: Debug|x64 BP_CONFIGURATION_DEBUG
+macro: Release|x64 BP_CONFIGURATION_RELEASE
+macro: Retail|x64 BP_CONFIGURATION_RETAIL
+
+macro: Debug|x64 BP_PLATFORM_X64
+macro: Release|x64 BP_PLATFORM_X64
+macro: Retail|x64 BP_PLATFORM_X64
+
+macro: Debug|x64 BP_PLATFORM_WINDOWS
+macro: Release|x64 BP_PLATFORM_WINDOWS
+macro: Retail|x64 BP_PLATFORM_WINDOWS

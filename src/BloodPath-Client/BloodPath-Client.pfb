@@ -1,0 +1,13 @@
+name: BloodPath-Client
+build_directory: $(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\
+intermediate_directory: $(SolutionDir)..\bin\intermediate\BloodPath-Client\$(Configuration)\$(Platform)\
+configuration: Debug
+configuration: Release
+configuration: Retail
+language_standard: cpp17
+use_pch: true
+precompiled_header_file: BloodPathPCH.h
+precompiled_source_file: BloodPathPCH.cpp
+source_extension: .cpp
+header_extension: .h
+project_dependency: Engine

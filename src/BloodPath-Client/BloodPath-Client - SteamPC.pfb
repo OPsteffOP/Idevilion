@@ -1,0 +1,39 @@
+include: BloodPath-Client - Windows.pfb
+
+project_type: Application
+
+include_directory: Debug|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule
+include_directory: Release|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule
+include_directory: Retail|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule
+library_directory: Debug|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule
+library_directory: Release|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule
+library_directory: Retail|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule
+dependency: Debug|x64 SteamModule.lib
+dependency: Release|x64 SteamModule.lib
+dependency: Retail|x64 SteamModule.lib
+pre_build_event: Debug|x64 xcopy "$(SolutionDir)..\external\Steam\bin\steam_api64.dll" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Release|x64 xcopy "$(SolutionDir)..\external\Steam\bin\steam_api64.dll" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Retail|x64 xcopy "$(SolutionDir)..\external\Steam\bin\steam_api64.dll" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Debug|x64 xcopy "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\SteamModule.dll" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Release|x64 xcopy "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\SteamModule.dll" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Retail|x64 xcopy "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\SteamModule\SteamModule.dll" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+
+macro: Debug|x64 STEAM_BUILD
+macro: Release|x64 STEAM_BUILD
+macro: Retail|x64 STEAM_BUILD
+
+include_directory: Debug|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule
+include_directory: Release|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule
+include_directory: Retail|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule
+library_directory: Debug|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule
+library_directory: Release|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule
+library_directory: Retail|x64 $(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule
+dependency: Debug|x64 AWSGameLiftModule.lib
+dependency: Release|x64 AWSGameLiftModule.lib
+dependency: Retail|x64 AWSGameLiftModule.lib
+pre_build_event: Debug|x64 xcopy "$(SolutionDir)..\external\AWS-GameLift\bin\" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Release|x64 xcopy "$(SolutionDir)..\external\AWS-GameLift\bin\" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Retail|x64 xcopy "$(SolutionDir)..\external\AWS-GameLift\bin\" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Debug|x64 xcopy "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\AWSGameLiftModule.dll" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Release|x64 xcopy "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\AWSGameLiftModule.dll" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y
+pre_build_event: Retail|x64 xcopy "$(SolutionDir)..\bin\modules\$(Configuration)\$(Platform)\AWSGameLiftModule\AWSGameLiftModule.dll" "$(SolutionDir)..\bin\builds\BloodPath-Client\$(Configuration)\$(Platform)\" /Y

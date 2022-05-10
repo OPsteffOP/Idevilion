@@ -1,0 +1,14 @@
+include: Engine.pfb
+
+platform: x64
+
+warning_level: Level4
+warnings_as_errors: true
+
+macro: Debug|x64 BP_PLATFORM_X64
+macro: Release|x64 BP_PLATFORM_X64
+macro: Retail|x64 BP_PLATFORM_X64
+
+macro: Debug|x64 BP_PLATFORM_WINDOWS
+macro: Release|x64 BP_PLATFORM_WINDOWS
+macro: Retail|x64 BP_PLATFORM_WINDOWS
