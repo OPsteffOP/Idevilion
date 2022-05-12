@@ -51,7 +51,7 @@ void ClientGame::Initialize()
 
 	GameObject* pPlayerObject = new GameObject();
 	DEBUG_ONLY(pPlayerObject->SetDebugName("Player Object"));
-	pPlayerObject->AddComponent(new CameraComponent(new Camera(Point2f(mainWindowWidth / 2.f, mainWindowHeight / 2.f), Point2f((float)mainWindowWidth, (float)mainWindowHeight))));
+	pPlayerObject->AddComponent(new CameraComponent(new Camera(Point2f(mainWindowWidth / 2.f, mainWindowHeight / 2.f), Point2f((float)mainWindowWidth, (float)mainWindowHeight)))); // TODO: this moves the player to the center of camera, which shouldn't happen, the center of the camera should stay 0,0 here
 	pPlayerObject->AddComponent(new DebugCameraComponent());
 	pPlayerObject->AddComponent(new RenderComponent(Paths::Data::DATA_DIR + "test.png", 16, 16));
 	m_pScene->AddGameObject(pPlayerObject);

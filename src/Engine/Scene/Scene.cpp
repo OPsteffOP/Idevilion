@@ -23,17 +23,19 @@ void Scene::Update()
 	Rect4i visibleChunksRect(INT_MIN / 2, INT_MIN / 2, INT_MAX, INT_MAX); // if there's no camera, just update & render everything
 	if (CameraManager::GetInstance()->GetActiveMainCamera() != nullptr)
 	{
-		GetVisibleChunksRect();
+		visibleChunksRect = GetVisibleChunksRect();
 		visibleChunksRect.x -= 1; // adding an extra chunk on each side for the update to avoid moving objects suddenly stop moving and not coming in view anymore
 		visibleChunksRect.y -= 1;
 		visibleChunksRect.width += 1;
 		visibleChunksRect.height += 1;
 	}
 
-	for (const std::pair<Point2i, Chunk>& pair : m_LoadedChunks)
+	for (std::pair<const Point2i, Chunk>& pair : m_LoadedChunks)
 	{
 		if (!visibleChunksRect.IsInside(pair.first))
 			continue;
+
+		pair.second.lastUpdateTimestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
 
 		for (GameObject* pGameObject : pair.second.pGameObjects)
 		{
@@ -42,6 +44,8 @@ void Scene::Update()
 		}
 	}
 
+	HandlePendingChunkActions();
+	HandlePendingGameObjectActions();
 	ValidateChunks();
 	CleanupDeletedGameObjects();
 }
@@ -123,35 +127,19 @@ void Scene::DebugRender()
 
 void Scene::AddGameObject(GameObject* pGameObject)
 {
-	const Point2i chunkIndex = Point2i((int)std::floor(pGameObject->GetPosition().x / (float)CHUNK_SIZE.x), (int)std::floor(pGameObject->GetPosition().y / (float)CHUNK_SIZE.y));
-	m_LoadedChunks[chunkIndex].pGameObjects.push_back(pGameObject);
-
-	pGameObject->m_pParentScene = this;
-	pGameObject->Enable();
+	std::unique_lock lock(m_PendingActionsMutex);
+	m_PendingGameObjectActions.emplace(pGameObject, ActionType::ADD);
 }
 
-void Scene::RemoveGameObject(GameObject* pGameObject)
+void Scene::RemoveGameObject(GameObject* pGameObject, bool shouldDelete)
 {
-	const Point2i chunkIndex = Point2i((int)std::floor(pGameObject->GetPosition().x / (float)CHUNK_SIZE.x), (int)std::floor(pGameObject->GetPosition().y / (float)CHUNK_SIZE.y));
+	std::unique_lock lock(m_PendingActionsMutex);
 
-	if (m_LoadedChunks.find(chunkIndex) == m_LoadedChunks.end())
-		return;
-
-	std::vector<GameObject*>& pGameObjects = m_LoadedChunks[chunkIndex].pGameObjects;
-
-	std::vector<GameObject*>::iterator foundIterator = std::find(pGameObjects.begin(), pGameObjects.end(), pGameObject);
-	if (foundIterator != pGameObjects.end())
-	{
-		GameObject*& pObj = *foundIterator;
-
-		pObj->m_pParentScene = nullptr;
-		pObj->Disable();
-		delete pObj;
-		pObj = nullptr;
-	}
+	const ActionType actionType = shouldDelete ? ActionType::DELETE : ActionType::REMOVE;
+	m_PendingGameObjectActions.emplace(pGameObject, actionType);
 }
 
-void Scene::RemoveLastGameObjectAtLocation(const Point2f& position)
+void Scene::RemoveLastGameObjectAtLocation(const Point2f& position, bool shouldDelete)
 {
 	const Point2i chunkIndex = Point2i((int)std::floor(position.x / (float)CHUNK_SIZE.x), (int)std::floor(position.y / (float)CHUNK_SIZE.y));
 
@@ -164,13 +152,73 @@ void Scene::RemoveLastGameObjectAtLocation(const Point2f& position)
 		[&position](GameObject* pGameObject) { return pGameObject != nullptr && pGameObject->GetPosition() == position; });
 	if (foundIterator != pGameObjects.end())
 	{
-		GameObject*& pObj = *foundIterator;
+		std::unique_lock lock(m_PendingActionsMutex);
 
-		pObj->m_pParentScene = nullptr;
-		pObj->Disable();
-		delete pObj;
-		pObj = nullptr;
+		const ActionType actionType = shouldDelete ? ActionType::DELETE : ActionType::REMOVE;
+		m_PendingGameObjectActions.emplace(*foundIterator, actionType);
 	}
+}
+
+void Scene::HandlePendingChunkActions()
+{
+	std::unique_lock lock(m_PendingActionsMutex);
+
+	for (const std::pair<Point2i, ActionType>& pair : m_PendingChunkActions)
+	{
+		if (pair.second == ActionType::ADD)
+		{
+			m_LoadedChunks[pair.first].lastUpdateTimestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+		}
+		else
+		{
+			for (GameObject* pGameObject : m_LoadedChunks[pair.first].pGameObjects)
+			{
+				m_PendingGameObjectActions[pGameObject] = pair.second;
+			}
+
+			m_LoadedChunks.erase(pair.first);
+		}
+	}
+	m_PendingChunkActions.clear();
+}
+
+void Scene::HandlePendingGameObjectActions()
+{
+	std::unique_lock lock(m_PendingActionsMutex);
+
+	for (const std::pair<GameObject*, ActionType>& pair : m_PendingGameObjectActions)
+	{
+		GameObject* pGameObject = pair.first;
+
+		if (pair.second == ActionType::ADD)
+		{
+			const Point2i chunkIndex = Point2i((int)std::floor(pGameObject->GetPosition().x / (float)CHUNK_SIZE.x), (int)std::floor(pGameObject->GetPosition().y / (float)CHUNK_SIZE.y));
+			m_LoadedChunks[chunkIndex].pGameObjects.push_back(pGameObject);
+
+			m_LoadedChunks[chunkIndex].lastUpdateTimestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+
+			pGameObject->m_pParentScene = this;
+			pGameObject->Enable();
+		}
+		else
+		{
+			pGameObject->m_pParentScene = nullptr;
+			pGameObject->Disable();
+
+			const Point2i chunkIndex = Point2i((int)std::floor(pGameObject->GetPosition().x / (float)CHUNK_SIZE.x), (int)std::floor(pGameObject->GetPosition().y / (float)CHUNK_SIZE.y));
+			if (m_LoadedChunks.find(chunkIndex) != m_LoadedChunks.end())
+			{
+				std::vector<GameObject*>& pChunkGameObjects = m_LoadedChunks[chunkIndex].pGameObjects;
+				pChunkGameObjects.erase(std::remove(pChunkGameObjects.begin(), pChunkGameObjects.end(), pGameObject), pChunkGameObjects.end());
+
+				m_LoadedChunks[chunkIndex].lastUpdateTimestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+			}
+
+			if (pair.second == ActionType::DELETE)
+				delete pGameObject;
+		}
+	}
+	m_PendingGameObjectActions.clear();
 }
 
 void Scene::ValidateChunks()
@@ -198,6 +246,7 @@ void Scene::ValidateChunks()
 	{
 		const Point2i chunkIndex = Point2i((int)std::floor(pGameObject->GetPosition().x / (float)CHUNK_SIZE.x), (int)std::floor(pGameObject->GetPosition().y / (float)CHUNK_SIZE.y));
 		m_LoadedChunks[chunkIndex].pGameObjects.push_back(pGameObject);
+		m_LoadedChunks[chunkIndex].lastUpdateTimestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
 	}
 }
 
