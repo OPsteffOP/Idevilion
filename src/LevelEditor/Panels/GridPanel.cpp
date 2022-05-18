@@ -102,16 +102,16 @@ void GridPanel::UpdateInputGridMovement()
 	Window* pWindow = WindowManager::GetInstance()->GetCurrentWindow();
 	const Point2f clientMousePosition = pWindow->GetLocalMousePosition();
 
-	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::KEYBOARD));
-	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::MOUSE));
+	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::KEYBOARD));
+	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::MOUSE));
 
 	// Claim exclusive device for grid movement
 	if (IsPointInGrid(clientMousePosition))
 	{
-		if (pMouseDevice->GetPreviousState(InputAction::MOUSE_LEFT_BUTTON) == 0.f && pMouseDevice->GetState(InputAction::MOUSE_LEFT_BUTTON) != 0.f)
+		if (pMouseDevice->GetPreviousState((uint)MouseControl::MOUSE_LEFT_BUTTON) == 0.f && pMouseDevice->GetState((uint)MouseControl::MOUSE_LEFT_BUTTON) != 0.f)
 		{
-			m_pExclusiveMouseDevice = InputManager::GetInstance()->ClaimExclusiveInput(DeviceType::MOUSE);
-			m_IsWorldMoving = !pKeyboardDevice->IsKeyDown(InputAction::KEYBOARD_LCONTROL);
+			m_pExclusiveMouseDevice = InputManager::GetInstance()->ClaimExclusiveInput(InputDeviceIdentifier::MOUSE);
+			m_IsWorldMoving = !pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_LCONTROL);
 		}
 	}
 
@@ -142,7 +142,7 @@ void GridPanel::UpdateInputGridMovement()
 	}
 
 	// Grid movement done, release exclusive device
-	if (m_pExclusiveMouseDevice != nullptr && m_pExclusiveMouseDevice->GetPreviousState(InputAction::MOUSE_LEFT_BUTTON) != 0.f && m_pExclusiveMouseDevice->GetState(InputAction::MOUSE_LEFT_BUTTON) == 0.f)
+	if (m_pExclusiveMouseDevice != nullptr && m_pExclusiveMouseDevice->GetPreviousState((uint)MouseControl::MOUSE_LEFT_BUTTON) != 0.f && m_pExclusiveMouseDevice->GetState((uint)MouseControl::MOUSE_LEFT_BUTTON) == 0.f)
 	{
 		InputManager::GetInstance()->ReleaseExclusiveInput(m_pExclusiveMouseDevice);
 		m_pExclusiveMouseDevice = nullptr;
@@ -195,13 +195,13 @@ void GridPanel::UpdateInputWorldZoom()
 	if (!IsPointInGrid(clientMousePosition))
 		return;
 
-	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::MOUSE));
-	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::KEYBOARD));
+	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::MOUSE));
+	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::KEYBOARD));
 
-	if (!pKeyboardDevice->IsKeyDown(InputAction::KEYBOARD_LCONTROL))
+	if (!pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_LCONTROL))
 	{
 		const float currentScale = CameraManager::GetInstance()->GetActiveCamera()->GetScale();
-		const float deltaScale = -pMouseDevice->GetState(InputAction::MOUSE_SCROLL) * WORLD_ZOOM_MULTIPLIER;
+		const float deltaScale = -pMouseDevice->GetState((uint)MouseControl::MOUSE_SCROLL) * WORLD_ZOOM_MULTIPLIER;
 		const float newScale = currentScale + deltaScale;
 
 		CameraManager::GetInstance()->GetActiveCamera()->SetScale(newScale);
@@ -217,21 +217,21 @@ void GridPanel::UpdateInputGridZoom()
 	if (!IsPointInGrid(clientMousePosition))
 		return;
 
-	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::MOUSE));
-	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::KEYBOARD));
+	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::MOUSE));
+	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::KEYBOARD));
 
-	if (pKeyboardDevice->IsKeyDown(InputAction::KEYBOARD_LCONTROL))
+	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_LCONTROL))
 	{
 		const uint currentZoom = (uint)std::roundf(Scene::CHUNK_SIZE.x / m_TileSize.x);
-		const float newTileSize = (float)Scene::CHUNK_SIZE.x / (currentZoom - pMouseDevice->GetState(InputAction::MOUSE_SCROLL));
+		const float newTileSize = (float)Scene::CHUNK_SIZE.x / (currentZoom - pMouseDevice->GetState((uint)MouseControl::MOUSE_SCROLL));
 		TEMP_SetTileSize(newTileSize, newTileSize);
 	}
 }
 
 void GridPanel::UpdateInputTileSelection()
 {
-	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::KEYBOARD));
-	if (pKeyboardDevice->IsKeyUp(InputAction::KEYBOARD_ESCAPE))
+	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::KEYBOARD));
+	if (pKeyboardDevice->IsKeyUp((uint)KeyboardControl::KEYBOARD_ESCAPE))
 		m_IsRegionSelected = false;
 }
 

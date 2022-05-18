@@ -8,6 +8,8 @@
 class WinMouseDevice : public MouseInputDevice
 {
 public:
+	explicit WinMouseDevice(InputDeviceIdentifier identifier);
+
 	virtual void Update() override;
 
 	virtual bool IsCursorVisible() const override;

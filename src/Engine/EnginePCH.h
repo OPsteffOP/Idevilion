@@ -33,6 +33,17 @@
 #include <stdio.h>
 #endif
 
+// Input APIs
+#ifdef BP_PLATFORM_WINDOWS
+#pragma comment(lib, "dinput8.lib")
+#pragma comment(lib, "Xinput.lib")
+
+#define DIRECTINPUT_VERSION 0x0800
+#include <InitGuid.h>
+#include <dinput.h>
+#include <Xinput.h>
+#endif
+
 #include <string>
 #include <vector>
 #include <unordered_map>

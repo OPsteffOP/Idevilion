@@ -57,15 +57,15 @@ void EditorPanel::Update()
 
 void EditorPanel::UpdateInputGridToggle()
 {
-	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::KEYBOARD));
-	if (pKeyboardDevice->IsKeyDown(InputAction::KEYBOARD_LCONTROL) && pKeyboardDevice->IsKeyUp(InputAction::KEYBOARD_G))
+	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::KEYBOARD));
+	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_LCONTROL) && pKeyboardDevice->IsKeyUp((uint)KeyboardControl::KEYBOARD_G))
 		m_ShouldDrawGrid = !m_ShouldDrawGrid;
 }
 
 void EditorPanel::UpdateInputTileDeletion()
 {
-	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::KEYBOARD));
-	if (pKeyboardDevice->IsKeyUp(InputAction::KEYBOARD_DELETE) && m_IsRegionSelected)
+	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::KEYBOARD));
+	if (pKeyboardDevice->IsKeyUp((uint)KeyboardControl::KEYBOARD_DELETE) && m_IsRegionSelected)
 	{
 		const Point2f selectedPosition = Point2f(GetSelectedRegion().x, GetSelectedRegion().y);
 		GetScene(m_SelectedLayer).RemoveLastGameObjectAtLocation(selectedPosition);

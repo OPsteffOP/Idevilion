@@ -25,33 +25,46 @@ void CameraComponent::Update()
 	if (CameraManager::GetInstance()->GetActiveCamera() != m_pCamera)
 		return;
 
-	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::KEYBOARD));
-	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::MOUSE));
+	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::KEYBOARD));
+	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::MOUSE));
 
-	if (pKeyboardDevice->IsKeyDown(InputAction::KEYBOARD_RIGHT_ARROW))
+	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_RIGHT_ARROW))
 	{
 		m_pGameObject->Move(0.25f, 0.f);
 		CameraManager::GetInstance()->GetActiveMainCamera()->SetCenterPosition(m_pGameObject->GetPosition()); // TODO: camera should be moved with the same delta movement instead of teleported to the exact player position
 	}
-	if (pKeyboardDevice->IsKeyDown(InputAction::KEYBOARD_LEFT_ARROW))
+	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_LEFT_ARROW))
 	{
 		m_pGameObject->Move(-0.25f, 0.f);
 		CameraManager::GetInstance()->GetActiveMainCamera()->SetCenterPosition(m_pGameObject->GetPosition()); // TODO: camera should be moved with the same delta movement instead of teleported to the exact player position
 	}
-	if (pKeyboardDevice->IsKeyDown(InputAction::KEYBOARD_UP_ARROW))
+	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_UP_ARROW))
 	{
 		m_pGameObject->Move(0.f, 0.25f);
 		CameraManager::GetInstance()->GetActiveMainCamera()->SetCenterPosition(m_pGameObject->GetPosition()); // TODO: camera should be moved with the same delta movement instead of teleported to the exact player position
 	}
-	if (pKeyboardDevice->IsKeyDown(InputAction::KEYBOARD_DOWN_ARROW))
+	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_DOWN_ARROW))
 	{
 		m_pGameObject->Move(0.f, -0.25f);
 		CameraManager::GetInstance()->GetActiveMainCamera()->SetCenterPosition(m_pGameObject->GetPosition()); // TODO: camera should be moved with the same delta movement instead of teleported to the exact player position
 	}
 
-	if (pMouseDevice->GetState(InputAction::MOUSE_SCROLL))
+	// TODO: TEMP - TESTING
+	ControllerInputDevice* pControllerDevice1 = static_cast<ControllerInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::CONTROLLER_1));
+	m_pGameObject->Move(0.25f * pControllerDevice1->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X), 0.25f * pControllerDevice1->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y));
+	ControllerInputDevice* pControllerDevice2 = static_cast<ControllerInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::CONTROLLER_2));
+	m_pGameObject->Move(0.25f * pControllerDevice2->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X), 0.25f * pControllerDevice2->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y));
+	ControllerInputDevice* pControllerDevice3 = static_cast<ControllerInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::CONTROLLER_3));
+	m_pGameObject->Move(0.25f * pControllerDevice3->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X), 0.25f * pControllerDevice3->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y));
+	ControllerInputDevice* pControllerDevice4 = static_cast<ControllerInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::CONTROLLER_4));
+	m_pGameObject->Move(0.25f * pControllerDevice4->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X), 0.25f * pControllerDevice4->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y));
+
+	CameraManager::GetInstance()->GetActiveMainCamera()->SetCenterPosition(m_pGameObject->GetPosition());
+	// TODO: TEMP - TESTING
+
+	if (pMouseDevice->GetState((uint)MouseControl::MOUSE_SCROLL))
 	{
-		const float scrollAmount = -pMouseDevice->GetState(InputAction::MOUSE_SCROLL);
+		const float scrollAmount = -pMouseDevice->GetState((uint)MouseControl::MOUSE_SCROLL);
 		if (std::fabsf(scrollAmount) >= FLT_EPSILON)
 		{
 			const float previousScale = CameraManager::GetInstance()->GetActiveMainCamera()->GetScale();

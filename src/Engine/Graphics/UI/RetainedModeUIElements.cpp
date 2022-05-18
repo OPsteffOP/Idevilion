@@ -244,8 +244,8 @@ void UIScrollPanel::UpdateScrolling()
 
 	if (m_HierarchyRect.IsInside(clientMousePosition))
 	{
-		MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::MOUSE));
-		const float scrollDistance = pMouseDevice->GetState(InputAction::MOUSE_SCROLL);
+		MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::MOUSE));
+		const float scrollDistance = pMouseDevice->GetState((uint)MouseControl::MOUSE_SCROLL);
 		if (std::fabsf(scrollDistance) >= FLT_EPSILON)
 		{
 			if (m_pChildren.empty() || std::fabsf(m_ScrollPositionLimit) <= FLT_EPSILON)
@@ -382,8 +382,8 @@ void UIButton::Update()
 			m_IsEntered = true;
 		}
 
-		MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::MOUSE));
-		if (!pMouseDevice->GetPreviousState(InputAction::MOUSE_LEFT_BUTTON) && pMouseDevice->GetState(InputAction::MOUSE_LEFT_BUTTON))
+		MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::MOUSE));
+		if (!pMouseDevice->GetPreviousState((uint)MouseControl::MOUSE_LEFT_BUTTON) && pMouseDevice->GetState((uint)MouseControl::MOUSE_LEFT_BUTTON))
 		{
 			if (m_ClickEventHandler != nullptr)
 				m_ClickEventHandler(this);

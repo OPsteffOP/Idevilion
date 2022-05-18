@@ -11,8 +11,6 @@ bool WinWindow::m_IsClassInitialized = false;
 
 LRESULT CALLBACK WinWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::MOUSE));
-
 	switch (msg)
 	{
 	case WM_CREATE:
@@ -22,13 +20,6 @@ LRESULT CALLBACK WinWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		reinterpret_cast<Window*>(GetWindowLongPtr(hwnd, GWLP_USERDATA))->Close();
 		break;
 
-	case WM_LBUTTONDBLCLK:
-		pMouseDevice->SetState(InputAction::MOUSE_LEFT_DOUBLE_CLICK, 1.f);
-		break;
-	case WM_MOUSEWHEEL:
-		pMouseDevice->SetState(InputAction::MOUSE_SCROLL, (float)GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA);
-		break;
-
 	case WM_KILLFOCUS:
 		reinterpret_cast<WinWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA))->OnUnfocus();
 		break;
@@ -36,6 +27,8 @@ LRESULT CALLBACK WinWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		reinterpret_cast<WinWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA))->OnFocus();
 		break;
 	}
+
+	InputManager::WindowProc(hwnd, msg, wParam, lParam);
 
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
@@ -113,7 +106,7 @@ bool WinWindow::IsFocused() const
 
 Point2f WinWindow::GetLocalMousePosition() const
 {
-	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::MOUSE));
+	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::MOUSE));
 	const Point2f& screenMousePosition = pMouseDevice->GetMousePosition();
 
 	POINT point;

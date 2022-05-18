@@ -5,6 +5,10 @@
 
 #ifdef BP_PLATFORM_WINDOWS
 
+WinMouseDevice::WinMouseDevice(InputDeviceIdentifier identifier)
+	: MouseInputDevice(identifier)
+{}
+
 void WinMouseDevice::Update()
 {
 	CURSORINFO info;
@@ -25,11 +29,11 @@ void WinMouseDevice::Update()
 		if (GetSystemMetrics(SM_SWAPBUTTON))
 			std::swap(leftMouseButton, rightMouseButton);
 
-		SetState(InputAction::MOUSE_LEFT_BUTTON, (bool)GetAsyncKeyState(leftMouseButton));
-		SetState(InputAction::MOUSE_RIGHT_BUTTON, (bool)GetAsyncKeyState(rightMouseButton));
-		SetState(InputAction::MOUSE_MIDDLE_BUTTON, (bool)GetAsyncKeyState(VK_MBUTTON));
-		SetState(InputAction::MOUSE_SIDE_BUTTON_ONE, (bool)GetAsyncKeyState(VK_XBUTTON1));
-		SetState(InputAction::MOUSE_SIDE_BUTTON_TWO, (bool)GetAsyncKeyState(VK_XBUTTON2));
+		SetState((uint)MouseControl::MOUSE_LEFT_BUTTON, (bool)GetAsyncKeyState(leftMouseButton));
+		SetState((uint)MouseControl::MOUSE_RIGHT_BUTTON, (bool)GetAsyncKeyState(rightMouseButton));
+		SetState((uint)MouseControl::MOUSE_MIDDLE_BUTTON, (bool)GetAsyncKeyState(VK_MBUTTON));
+		SetState((uint)MouseControl::MOUSE_SIDE_BUTTON_ONE, (bool)GetAsyncKeyState(VK_XBUTTON1));
+		SetState((uint)MouseControl::MOUSE_SIDE_BUTTON_TWO, (bool)GetAsyncKeyState(VK_XBUTTON2));
 	}
 }
 

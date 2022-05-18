@@ -23,11 +23,11 @@ void DebugCameraComponent::Update()
 {
 	DebugCamera* pDebugCamera = static_cast<DebugCamera*>(m_pCamera);
 
-	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(DeviceType::KEYBOARD));
+	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::KEYBOARD));
 
-	if (pKeyboardDevice->IsKeyDown(InputAction::KEYBOARD_F2))
+	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_F2))
 		CameraManager::GetInstance()->SetActiveCamera(pDebugCamera->GetMainCamera());
-	if (pKeyboardDevice->IsKeyDown(InputAction::KEYBOARD_F3))
+	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_F3))
 		CameraManager::GetInstance()->SetActiveCamera(pDebugCamera);
 
 	CameraComponent::Update();

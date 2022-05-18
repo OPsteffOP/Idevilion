@@ -8,10 +8,12 @@
 class WinKeyboardDevice : public KeyboardInputDevice
 {
 public:
+	explicit WinKeyboardDevice(InputDeviceIdentifier identifier);
+
 	virtual void Update() override;
 
 private:
-	uint ConvertInputAction(InputAction action) const;
+	uint ConvertInputAction(KeyboardControl action) const;
 };
 
 #endif
