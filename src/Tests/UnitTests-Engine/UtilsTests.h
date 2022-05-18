@@ -218,42 +218,77 @@ TEST_FUNCTION_END_MODULE(Utils, Point_Arithmetics)
 #pragma region Rectangle
 TEST_FUNCTION_BEGIN_MODULE(Utils, Rectangle_IsOverlapping)
 {
-	Rect4f rect1(0.f, 0.f, 5.f, 5.f);
-	Rect4f rect2(2.5f, 2.5f, 5.f, 5.f);
-	Rect4f rect3(2.5f, 2.5f, 1.f, 1.f);
-	Rect4f rect4(6.f, 6.f, 1.f, 1.f);
-	Rect4f rect5(5.f, 5.f, 1.f, 1.f);
+	{
+		Rect4f rect1(0.f, 0.f, 5.f, 5.f);
+		Rect4f rect2(2.5f, 2.5f, 5.f, 5.f);
+		Rect4f rect3(2.5f, 2.5f, 1.f, 1.f);
+		Rect4f rect4(6.f, 6.f, 1.f, 1.f);
+		Rect4f rect5(5.f, 5.f, 1.f, 1.f);
 
-	TEST_VALIDATE(rect1.IsOverlapping(rect1), true);
-	TEST_VALIDATE(rect1.IsOverlapping(rect2), true);
-	TEST_VALIDATE(rect1.IsOverlapping(rect3), true);
-	TEST_VALIDATE(rect1.IsOverlapping(rect4), false);
-	TEST_VALIDATE(rect1.IsOverlapping(rect5), true);
-	TEST_VALIDATE(rect4.IsOverlapping(rect4), true);
-	TEST_VALIDATE(rect4.IsOverlapping(rect3), false);
-	TEST_VALIDATE(rect4.IsOverlapping(rect2), true);
-	TEST_VALIDATE(rect5.IsOverlapping(rect4), true);
+		TEST_VALIDATE(rect1.IsOverlapping(rect1), true);
+		TEST_VALIDATE(rect1.IsOverlapping(rect2), true);
+		TEST_VALIDATE(rect1.IsOverlapping(rect3), true);
+		TEST_VALIDATE(rect1.IsOverlapping(rect4), false);
+		TEST_VALIDATE(rect1.IsOverlapping(rect5), true);
+		TEST_VALIDATE(rect4.IsOverlapping(rect4), true);
+		TEST_VALIDATE(rect4.IsOverlapping(rect3), false);
+		TEST_VALIDATE(rect4.IsOverlapping(rect2), true);
+		TEST_VALIDATE(rect5.IsOverlapping(rect4), true);
+	}
+
+	{
+		Rect4i rect1(0, 0, 5, 5);
+		Rect4i rect2(6, 6, 1, 1);
+		Rect4i rect3(5, 5, 1, 1);
+
+		TEST_VALIDATE(rect1.IsOverlapping(rect1), true);
+		TEST_VALIDATE(rect1.IsOverlapping(rect2), false);
+		TEST_VALIDATE(rect1.IsOverlapping(rect3), true);
+		TEST_VALIDATE(rect2.IsOverlapping(rect2), true);
+		TEST_VALIDATE(rect3.IsOverlapping(rect2), true);
+	}
 }
 TEST_FUNCTION_END_MODULE(Utils, Rectangle_IsOverlapping)
 
 TEST_FUNCTION_BEGIN_MODULE(Utils, Rectangle_IsInside)
 {
-	Rect4f rect1(0.f, 0.f, 5.f, 5.f);
-	Rect4f rect2(2.5f, 2.5f, 5.f, 5.f);
+	{
+		Rect4f rect1(0.f, 0.f, 5.f, 5.f);
+		Rect4f rect2(2.5f, 2.5f, 5.f, 5.f);
 
-	Point2f point1(2.5f, 2.5f);
-	Point2f point2(0.f, 0.f);
-	Point2f point3(5.f, 5.f);
-	Point2f point4(7.5f, 7.5f);
+		Point2f point1(2.5f, 2.5f);
+		Point2f point2(0.f, 0.f);
+		Point2f point3(5.f, 5.f);
+		Point2f point4(7.5f, 7.5f);
 
-	TEST_VALIDATE(rect1.IsInside(point1), true);
-	TEST_VALIDATE(rect1.IsInside(point2), true);
-	TEST_VALIDATE(rect1.IsInside(point3), true);
-	TEST_VALIDATE(rect1.IsInside(point4), false);
-	TEST_VALIDATE(rect2.IsInside(point1), true);
-	TEST_VALIDATE(rect2.IsInside(point2), false);
-	TEST_VALIDATE(rect2.IsInside(point3), true);
-	TEST_VALIDATE(rect2.IsInside(point4), true);
+		TEST_VALIDATE(rect1.IsInside(point1), true);
+		TEST_VALIDATE(rect1.IsInside(point2), true);
+		TEST_VALIDATE(rect1.IsInside(point3), false);
+		TEST_VALIDATE(rect1.IsInside(point4), false);
+		TEST_VALIDATE(rect2.IsInside(point1), true);
+		TEST_VALIDATE(rect2.IsInside(point2), false);
+		TEST_VALIDATE(rect2.IsInside(point3), true);
+		TEST_VALIDATE(rect2.IsInside(point4), false);
+	}
+
+	{
+		Rect4i rect1(0, 0, 5, 5);
+		Rect4i rect2(2, 2, 5, 5);
+
+		Point2i point1(2, 2);
+		Point2i point2(0, 0);
+		Point2i point3(5, 5);
+		Point2i point4(7, 7);
+
+		TEST_VALIDATE(rect1.IsInside(point1), true);
+		TEST_VALIDATE(rect1.IsInside(point2), true);
+		TEST_VALIDATE(rect1.IsInside(point3), false);
+		TEST_VALIDATE(rect1.IsInside(point4), false);
+		TEST_VALIDATE(rect2.IsInside(point1), true);
+		TEST_VALIDATE(rect2.IsInside(point2), false);
+		TEST_VALIDATE(rect2.IsInside(point3), true);
+		TEST_VALIDATE(rect2.IsInside(point4), false);
+	}
 }
 TEST_FUNCTION_END_MODULE(Utils, Rectangle_IsInside)
 #pragma endregion
