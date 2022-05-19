@@ -13,3 +13,5 @@
 #include "Casting.h"
 
 #include "UUID.h"
+
+#include "GameTime.h"

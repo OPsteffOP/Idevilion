@@ -9,6 +9,8 @@ int main(int argc, char* argv[])
 	{
 		CommandLine::Initialize(argc, argv);
 
+		GameTime::Start();
+
 		ServerGame server;
 		server.Start();
 	}

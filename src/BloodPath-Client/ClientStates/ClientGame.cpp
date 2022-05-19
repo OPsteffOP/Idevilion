@@ -17,6 +17,7 @@
 #include "CameraComponent.h"
 #include "DebugCameraComponent.h"
 #include "RenderComponent.h"
+#include "AnimationRenderComponent.h"
 
 ClientGame::ClientGame(const std::string& worldServerIP, uint worldServerPort, const NetworkUUID& sessionToken)
 	: m_SessionToken(sessionToken)
@@ -53,12 +54,15 @@ void ClientGame::Initialize()
 	DEBUG_ONLY(pPlayerObject->SetDebugName("Player Object"));
 	pPlayerObject->AddComponent(new CameraComponent(new Camera(Point2f(mainWindowWidth / 2.f, mainWindowHeight / 2.f), Point2f((float)mainWindowWidth, (float)mainWindowHeight))));
 	pPlayerObject->AddComponent(new DebugCameraComponent());
-	pPlayerObject->AddComponent(new RenderComponent(Paths::Data::DATA_DIR + "test.png", 16, 16));
+	//pPlayerObject->AddComponent(new RenderComponent(Paths::Data::DATA_DIR + "test.png", 16, 16));
+	pPlayerObject->AddComponent(new AnimationRenderComponent(Paths::Data::DATA_DIR + "animation.png", 8, 2, 0, 8, 1.f, 32, 32));
 	m_pScene->AddGameObject(pPlayerObject);
 }
 
 void ClientGame::Update()
 {
+	GameTime::Update();
+
 	Window* pMainWindow = WindowManager::GetInstance()->GetWindow(WindowIdentifier::MAIN_WINDOW);
 	Swapchain* pMainWindowSwapchain = pMainWindow->GetSwapchain();
 

@@ -26,6 +26,8 @@ int UniversalEntryPoint(int argc, char* argv[], void* pWindowUserData)
 			return -1;
 #endif
 
+		GameTime::Start();
+
 		// Initialize the window, renderer, and core graphics objects
 		bool shouldContinue = false;
 		{

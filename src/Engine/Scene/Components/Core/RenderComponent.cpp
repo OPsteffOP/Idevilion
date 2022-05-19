@@ -52,6 +52,7 @@ RenderComponent::RenderComponent(PixelBuffer* pPixelBuffer, float destWidth, flo
 	, m_SrcRect(srcRect)
 	, m_DestWidth(destWidth)
 	, m_DestHeight(destHeight)
+	, m_ShouldForceUpdate(false)
 {
 	if (m_pIndexBuffer == nullptr)
 		CreateBuffers();
@@ -146,7 +147,7 @@ void RenderComponent::Initialize()
 
 void RenderComponent::Update()
 {
-	if (m_pGameObject->IsPositionDirty())
+	if (m_pGameObject->IsPositionDirty() || m_ShouldForceUpdate)
 	{
 		const Point2f& position = m_pGameObject->GetPosition();
 
@@ -161,6 +162,8 @@ void RenderComponent::Update()
 		data.srcHeight = m_SrcRect.height;
 
 		m_pConstantBuffer->UpdateData(&data);
+
+		m_ShouldForceUpdate = false;
 	}
 }
 

@@ -28,10 +28,7 @@ public:
 	float GetDestWidth() const { return m_DestWidth; }
 	float GetDestHeight() const { return m_DestHeight; }
 
-private:
-	void CreateBuffers();
-
-private:
+protected:
 	struct Vertex
 	{
 		Point2f position;
@@ -57,4 +54,9 @@ private:
 	Rect4f m_SrcRect;
 	float m_DestWidth;
 	float m_DestHeight;
+
+	bool m_ShouldForceUpdate;
+
+private:
+	void CreateBuffers();
 };

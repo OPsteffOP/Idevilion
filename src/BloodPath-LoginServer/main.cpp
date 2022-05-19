@@ -8,6 +8,8 @@ int main(int argc, char* argv[])
 	{
 		CommandLine::Initialize(argc, argv);
 
+		GameTime::Start();
+
 		if (!CommandLine::IsFlagSet("-server_port") || !CommandLine::IsFlagSet("-database_server") || !CommandLine::IsFlagSet("-database_port") || !CommandLine::IsFlagSet("-database_auth_username") || !CommandLine::IsFlagSet("-database_auth_password"))
 		{
 			LOG_ERROR("Invalid network command line arguments, usage: -server_port=uint here -database_server=\"string here\" -database_port=uint here -database_auth_username=\"string here\" -database_auth_password=\"string here\"");

@@ -10,6 +10,8 @@ int main(int argc, char* argv[])
 	{
 		CommandLine::Initialize(argc, argv);
 
+		GameTime::Start();
+
 		if (!CommandLine::IsFlagSet("-server_port"))
 		{
 			LOG_ERROR("Invalid network command line arguments, usage: -server_port=uint here");

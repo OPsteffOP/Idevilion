@@ -25,39 +25,42 @@ void CameraComponent::Update()
 	if (CameraManager::GetInstance()->GetActiveCamera() != m_pCamera)
 		return;
 
+	const float elapsedSec = GameTime::GetElapsedSec();
+	const float movementSpeed = 150.f;
+
 	KeyboardInputDevice* pKeyboardDevice = static_cast<KeyboardInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::KEYBOARD));
 	MouseInputDevice* pMouseDevice = static_cast<MouseInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::MOUSE));
 
 	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_RIGHT_ARROW))
 	{
-		m_pGameObject->Move(0.25f, 0.f);
+		m_pGameObject->Move(movementSpeed * elapsedSec, 0.f);
 		CameraManager::GetInstance()->GetActiveMainCamera()->SetCenterPosition(m_pGameObject->GetPosition()); // TODO: camera should be moved with the same delta movement instead of teleported to the exact player position
 	}
 	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_LEFT_ARROW))
 	{
-		m_pGameObject->Move(-0.25f, 0.f);
+		m_pGameObject->Move(-movementSpeed * elapsedSec, 0.f);
 		CameraManager::GetInstance()->GetActiveMainCamera()->SetCenterPosition(m_pGameObject->GetPosition()); // TODO: camera should be moved with the same delta movement instead of teleported to the exact player position
 	}
 	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_UP_ARROW))
 	{
-		m_pGameObject->Move(0.f, 0.25f);
+		m_pGameObject->Move(0.f, movementSpeed * elapsedSec);
 		CameraManager::GetInstance()->GetActiveMainCamera()->SetCenterPosition(m_pGameObject->GetPosition()); // TODO: camera should be moved with the same delta movement instead of teleported to the exact player position
 	}
 	if (pKeyboardDevice->IsKeyDown((uint)KeyboardControl::KEYBOARD_DOWN_ARROW))
 	{
-		m_pGameObject->Move(0.f, -0.25f);
+		m_pGameObject->Move(0.f, -movementSpeed * elapsedSec);
 		CameraManager::GetInstance()->GetActiveMainCamera()->SetCenterPosition(m_pGameObject->GetPosition()); // TODO: camera should be moved with the same delta movement instead of teleported to the exact player position
 	}
 
 	// TODO: TEMP - TESTING
 	ControllerInputDevice* pControllerDevice1 = static_cast<ControllerInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::CONTROLLER_1));
-	m_pGameObject->Move(0.25f * pControllerDevice1->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X), 0.25f * pControllerDevice1->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y));
+	m_pGameObject->Move(movementSpeed * pControllerDevice1->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X) * elapsedSec, movementSpeed * pControllerDevice1->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y) * elapsedSec);
 	ControllerInputDevice* pControllerDevice2 = static_cast<ControllerInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::CONTROLLER_2));
-	m_pGameObject->Move(0.25f * pControllerDevice2->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X), 0.25f * pControllerDevice2->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y));
+	m_pGameObject->Move(movementSpeed * pControllerDevice2->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X) * elapsedSec, movementSpeed * pControllerDevice2->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y) * elapsedSec);
 	ControllerInputDevice* pControllerDevice3 = static_cast<ControllerInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::CONTROLLER_3));
-	m_pGameObject->Move(0.25f * pControllerDevice3->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X), 0.25f * pControllerDevice3->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y));
+	m_pGameObject->Move(movementSpeed * pControllerDevice3->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X) * elapsedSec, movementSpeed * pControllerDevice3->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y) * elapsedSec);
 	ControllerInputDevice* pControllerDevice4 = static_cast<ControllerInputDevice*>(InputManager::GetInstance()->GetDevice(InputDeviceIdentifier::CONTROLLER_4));
-	m_pGameObject->Move(0.25f * pControllerDevice4->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X), 0.25f * pControllerDevice4->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y));
+	m_pGameObject->Move(movementSpeed * pControllerDevice4->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_X) * elapsedSec, movementSpeed * pControllerDevice4->GetState((uint)ControllerControl::CONTROLLER_LEFT_THUMB_Y) * elapsedSec);
 
 	CameraManager::GetInstance()->GetActiveMainCamera()->SetCenterPosition(m_pGameObject->GetPosition());
 	// TODO: TEMP - TESTING
