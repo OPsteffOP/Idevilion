@@ -16,7 +16,7 @@ public:
 	virtual ~D3D11ShaderState() override;
 
 protected:
-	ID3DBlob* m_pCompiledShader;
+	CompiledShaderData m_CompiledShaderData;
 
 	union
 	{

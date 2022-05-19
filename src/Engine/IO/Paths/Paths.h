@@ -4,6 +4,9 @@
 
 namespace Paths
 {
+	inline std::string COMPANY_NAME = "Steff";
+	inline std::string GAME_NAME = "Placeholder";
+
 	namespace OS
 	{
 		std::string GetLocalAppFolder();
@@ -17,11 +20,13 @@ namespace Paths
 
 	namespace Data
 	{
-		inline static std::string DATA_DIR = /*std::filesystem::path(Paths::OS::GetLocalAppFolder()).append("VeryCoolEngine\\data\\").string();*/ "C:\\Users\\Administrator\\Perforce\\STEFF-DESKTOP\\P3-Placeholder\\Dev\\data\\";
-		inline static std::string DATA_SERVER_DIR = /*std::filesystem::path(Paths::OS::GetLocalAppFolder()).append("VeryCoolEngine\\data-server\\").string();*/ "C:\\Users\\Administrator\\Perforce\\STEFF-DESKTOP\\P3-Placeholder\\Dev\\data-server\\";
+		inline std::string CORE_DIR = "";
+
+		inline std::string SHADER_CACHE_DIR = "";
+		inline std::string DATA_DIR = "";
 
 #ifdef DEV_BUILD
-		inline static std::string DATA_DEV_DIR = /*std::filesystem::path(Paths::OS::GetLocalAppFolder()).append("VeryCoolEngine\\data-dev\\").string();*/ "C:\\Users\\Administrator\\Perforce\\STEFF-DESKTOP\\P3-Placeholder\\Dev\\data-dev\\";
+		inline std::string DATA_DEV_DIR = "C:\\Users\\Administrator\\Perforce\\STEFF-DESKTOP\\P3-Placeholder\\Dev\\data-dev\\";
 #endif
 
 		inline constexpr static const char* TEXTURES_DIR = "Textures\\";
@@ -37,6 +42,7 @@ namespace Paths
 			inline constexpr static const char* WORLD_FILE_NON_OPTIMIZED = ".bpl";
 			inline constexpr static const char* FILE_DATABASE = ".bpdb";
 			inline constexpr static const char* FILE_DATABASE_INDEX = ".bpdbi";
+			inline constexpr static const char* COMPILED_SHADER = ".bpcs";
 		}
 	}
 }

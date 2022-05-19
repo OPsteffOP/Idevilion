@@ -123,7 +123,7 @@ bool ServerGame::ConnectDatabaseServer()
 
 void ServerGame::InitializeWorld()
 {
-	const std::string worldFileLocation = Paths::Data::DATA_SERVER_DIR + Paths::Data::WORLDS_DIR + CommandLine::GetFlagValue("-world_file");
+	const std::string worldFileLocation = Paths::Data::DATA_DIR + Paths::Data::WORLDS_DIR + CommandLine::GetFlagValue("-world_file");
 	const int lowChunkX = std::stoi(CommandLine::GetFlagValue("-low_chunk_x"));
 	const int lowChunkY = std::stoi(CommandLine::GetFlagValue("-low_chunk_y"));
 	const int highChunkX = std::stoi(CommandLine::GetFlagValue("-high_chunk_x"));

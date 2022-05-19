@@ -9,8 +9,13 @@ Game::Game()
 	: m_IsShuttingDown(false)
 {}
 
-void Game::Start()
+void Game::Start(const EngineData& data)
 {
+	Paths::GAME_NAME = data.gameName;
+	Paths::Data::CORE_DIR = Utils::ForceEndWithPathSeparator(data.coreFolder);
+	Paths::Data::SHADER_CACHE_DIR = Utils::ForceEndWithPathSeparator(Paths::Data::CORE_DIR + data.shaderCacheFolder);
+	Paths::Data::DATA_DIR = Utils::ForceEndWithPathSeparator(Paths::Data::CORE_DIR + data.dataFolder);
+
 	Initialize();
 
 	while (!m_IsShuttingDown)

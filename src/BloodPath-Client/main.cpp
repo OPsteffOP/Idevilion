@@ -36,12 +36,18 @@ int UniversalEntryPoint(int argc, char* argv[], void* pWindowUserData)
 
 		if (shouldContinue)
 		{
+			EngineData engineInitializeData;
+			engineInitializeData.gameName = "Idevilion";
+			engineInitializeData.coreFolder = std::filesystem::path(Paths::OS::GetLocalAppFolder()).append(Paths::COMPANY_NAME + "/" + engineInitializeData.gameName).string();
+			engineInitializeData.shaderCacheFolder = "shader_cache";
+			engineInitializeData.dataFolder = "data";
+
 			std::string worldServerIP;
 			uint worldServerPort;
 			NetworkUUID sessionToken;
 			{
 				LoginScreen loginScreen;
-				loginScreen.Start();
+				loginScreen.Start(engineInitializeData);
 
 				worldServerIP = loginScreen.GetWorldServerIP();
 				worldServerPort = loginScreen.GetWorldServerPort();
@@ -50,18 +56,18 @@ int UniversalEntryPoint(int argc, char* argv[], void* pWindowUserData)
 
 			{
 				ClientGame game(worldServerIP, worldServerPort, sessionToken);
-				game.Start();
+				game.Start(engineInitializeData);
 			}
 		}
 
 #ifdef STEAM_BUILD
 		SteamModule::ShutdownSteam();
 #endif
-	}
+		}
 
 	LeakDetector::GetInstance()->DumpLeaks();
 	return 0;
-}
+	}
 
 #ifdef BP_PLATFORM_WINDOWS
 int main(int argc, char* argv[])

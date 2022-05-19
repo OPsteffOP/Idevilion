@@ -1,12 +1,7 @@
 // Folder: Graphics/Core
 
 #pragma once
-
-DEFINE_ENUM(ShaderType,
-	VERTEX_SHADER,
-	PIXEL_SHADER,
-	COMPUTE_SHADER
-);
+#include "ShaderCompiler.h"
 
 class ShaderState
 {

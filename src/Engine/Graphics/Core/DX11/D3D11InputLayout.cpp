@@ -33,8 +33,8 @@ D3D11InputLayout::D3D11InputLayout(ShaderState* pVertexShaderState, const std::v
 
 	D3D11ShaderState* pD3D11ShaderState = static_cast<D3D11ShaderState*>(pVertexShaderState);
 
-	hr = pRenderer->m_pDevice->CreateInputLayout(elements.data(), (UINT)elements.size(), pD3D11ShaderState->m_pCompiledShader->GetBufferPointer(),
-		pD3D11ShaderState->m_pCompiledShader->GetBufferSize(), &m_pInputLayout);
+	hr = pRenderer->m_pDevice->CreateInputLayout(elements.data(), (UINT)elements.size(), pD3D11ShaderState->m_CompiledShaderData.pBuffer,
+		pD3D11ShaderState->m_CompiledShaderData.size, &m_pInputLayout);
 	if (FAILED(hr))
 	{
 		LOG_ERROR("Failed to create D3D11 input layout");

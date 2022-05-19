@@ -535,6 +535,10 @@ NetworkUUID ByteStream::ReadNetworkUUID() const
 ByteStreamBinaryFileImpl::ByteStreamBinaryFileImpl(const std::string& filePath, bool shouldTruncFile)
 	: m_FilePath(filePath)
 {
+	const std::string parentPath = std::filesystem::path(filePath).parent_path().string();
+	if (!std::filesystem::exists(parentPath))
+		std::filesystem::create_directories(parentPath);
+
 	if (shouldTruncFile)
 	{
 		m_Output.open(filePath, std::ios::out | std::ios::trunc | std::ios::binary);

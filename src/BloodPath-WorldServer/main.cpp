@@ -11,8 +11,14 @@ int main(int argc, char* argv[])
 
 		GameTime::Start();
 
+		EngineData engineInitializeData;
+		engineInitializeData.gameName = "Idevilion";
+		engineInitializeData.coreFolder = std::filesystem::path(Paths::OS::GetLocalAppFolder()).append(Paths::COMPANY_NAME + "/" + engineInitializeData.gameName).string();
+		engineInitializeData.shaderCacheFolder = "shader_cache";
+		engineInitializeData.dataFolder = "data-server";
+
 		ServerGame server;
-		server.Start();
+		server.Start(engineInitializeData);
 	}
 
 	LeakDetector::GetInstance()->DumpLeaks();

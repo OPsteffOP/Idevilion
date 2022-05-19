@@ -6,4 +6,6 @@ namespace Utils
 {
 	std::wstring StringToWideString(const std::string& str);
 	std::string WideStringToString(const std::wstring& str);
+
+	std::string ForceEndWithPathSeparator(std::string str);
 }

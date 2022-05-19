@@ -16,6 +16,11 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 
+		Paths::GAME_NAME = "Idevilion";
+		Paths::Data::CORE_DIR = Utils::ForceEndWithPathSeparator(std::filesystem::path(Paths::OS::GetLocalAppFolder()).append(Paths::COMPANY_NAME + "/" + Paths::GAME_NAME).string());
+		Paths::Data::SHADER_CACHE_DIR = Utils::ForceEndWithPathSeparator(Paths::Data::CORE_DIR + "shader_cache");
+		Paths::Data::DATA_DIR = Utils::ForceEndWithPathSeparator(Paths::Data::CORE_DIR + "data-server");
+
 		const std::string& databaseHost = CommandLine::GetFlagValue("-database_server");
 		const uint databasePort = (uint)std::stoi(CommandLine::GetFlagValue("-database_port"));
 		const std::string& databaseUsername = CommandLine::GetFlagValue("-database_auth_username");
