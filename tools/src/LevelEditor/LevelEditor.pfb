@@ -1,10 +1,9 @@
 name: LevelEditor
 project_type: Application
-build_directory: $(SolutionDir)..\bin\builds\LevelEditor\$(Configuration)\$(Platform)\
-intermediate_directory: $(SolutionDir)..\bin\intermediate\LevelEditor\$(Configuration)\$(Platform)\
+build_directory: $(SolutionDir)..\..\bin\builds\Tools\LevelEditor\$(Configuration)\$(Platform)\
+intermediate_directory: $(SolutionDir)..\..\bin\intermediate\Tools\LevelEditor\$(Configuration)\$(Platform)\
 configuration: Debug
 configuration: Release
-configuration: Retail
 platform: x64
 language_standard: cpp17
 warning_level: Level4
@@ -18,12 +17,12 @@ project_dependency: Engine
 
 macro: Debug|x64 BP_CONFIGURATION_DEBUG
 macro: Release|x64 BP_CONFIGURATION_RELEASE
-macro: Retail|x64 BP_CONFIGURATION_RETAIL
 
 macro: Debug|x64 BP_PLATFORM_X64
 macro: Release|x64 BP_PLATFORM_X64
-macro: Retail|x64 BP_PLATFORM_X64
 
 macro: Debug|x64 BP_PLATFORM_WINDOWS
 macro: Release|x64 BP_PLATFORM_WINDOWS
-macro: Retail|x64 BP_PLATFORM_WINDOWS
+
+post_build_event: Debug|x64 xcopy "$(SolutionDir)..\..\bin\builds\Tools\LevelEditor\$(Configuration)\$(Platform)\LevelEditor.exe" "$(SolutionDir)..\..\tools\" /Y
+post_build_event: Release|x64 xcopy "$(SolutionDir)..\..\bin\builds\Tools\LevelEditor\$(Configuration)\$(Platform)\LevelEditor.exe" "$(SolutionDir)..\..\tools\" /Y

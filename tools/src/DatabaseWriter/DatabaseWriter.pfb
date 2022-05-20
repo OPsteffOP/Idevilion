@@ -4,7 +4,6 @@ build_directory: $(SolutionDir)..\..\bin\builds\Tools\DatabaseWriter\$(Configura
 intermediate_directory: $(SolutionDir)..\..\bin\intermediate\Tools\DatabaseWriter\$(Configuration)\$(Platform)\
 configuration: Debug
 configuration: Release
-configuration: Retail
 platform: x64
 language_standard: cpp17
 warning_level: Level4
@@ -18,16 +17,12 @@ project_dependency: Engine
 
 macro: Debug|x64 BP_CONFIGURATION_DEBUG
 macro: Release|x64 BP_CONFIGURATION_RELEASE
-macro: Retail|x64 BP_CONFIGURATION_RETAIL
 
 macro: Debug|x64 BP_PLATFORM_X64
 macro: Release|x64 BP_PLATFORM_X64
-macro: Retail|x64 BP_PLATFORM_X64
 
 macro: Debug|x64 BP_PLATFORM_WINDOWS
 macro: Release|x64 BP_PLATFORM_WINDOWS
-macro: Retail|x64 BP_PLATFORM_WINDOWS
 
 post_build_event: Debug|x64 xcopy "$(SolutionDir)..\..\bin\builds\Tools\DatabaseWriter\$(Configuration)\$(Platform)\DatabaseWriter.exe" "$(SolutionDir)..\..\tools\" /Y
 post_build_event: Release|x64 xcopy "$(SolutionDir)..\..\bin\builds\Tools\DatabaseWriter\$(Configuration)\$(Platform)\DatabaseWriter.exe" "$(SolutionDir)..\..\tools\" /Y
-post_build_event: Retail|x64 xcopy "$(SolutionDir)..\..\bin\builds\Tools\DatabaseWriter\$(Configuration)\$(Platform)\DatabaseWriter.exe" "$(SolutionDir)..\..\tools\" /Y

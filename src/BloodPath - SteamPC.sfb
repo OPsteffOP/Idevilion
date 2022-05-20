@@ -4,7 +4,6 @@ project: BloodPath-DatabaseServer/BloodPath-DatabaseServer.pfb
 project: BloodPath-LoginServer/BloodPath-LoginServer.pfb
 project: BloodPath-WorldServer/BloodPath-WorldServer.pfb
 project: Engine/Engine - SteamPC.pfb
-project: LevelEditor/LevelEditor.pfb
 project: Modules/SteamModule/SteamModule.pfb
 project: Modules/AWSGameLiftModule/AWSGameLiftModule.pfb
 

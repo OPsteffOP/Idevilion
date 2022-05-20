@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 		CommandLine::Initialize(argc, argv);
 
 		EngineData engineInitializeData;
-		engineInitializeData.gameName = "LevelEditor";
+		engineInitializeData.gameName = "Idevilion";
 		engineInitializeData.coreFolder = std::filesystem::path(Paths::OS::GetLocalAppFolder()).append(Paths::COMPANY_NAME + "/" + engineInitializeData.gameName).string();
 		engineInitializeData.shaderCacheFolder = "shader_cache";
 		engineInitializeData.dataFolder = "data";

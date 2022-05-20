@@ -1,4 +1,5 @@
 name: Tools
+project: LevelEditor/LevelEditor.pfb
 project: DatabaseWriter/DatabaseWriter.pfb
 project: CodeMacroFinder/CodeMacroFinder.pfb
-project: ../../src/Engine/Engine - Windows.pfb
+project: ../../src/Engine/Engine - Tools.pfb

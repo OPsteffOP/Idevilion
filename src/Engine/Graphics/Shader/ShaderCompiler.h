@@ -1,9 +1,9 @@
 // Folder: Graphics/Shader
 
 #pragma once
-#ifdef DEV_BUILD
-
 #include "CompiledShaderData.h"
+
+#ifdef DEV_BUILD
 
 class ShaderCompiler
 {

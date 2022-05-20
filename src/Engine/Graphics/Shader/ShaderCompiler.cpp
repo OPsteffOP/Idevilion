@@ -44,6 +44,8 @@ CompiledShaderData ShaderCompiler::CompileShader(const std::string& shaderPath, 
 
 CompiledShaderData ShaderCompiler::CompileShaderNoCache(const std::string& shaderPath, const std::vector<std::string>& defines, ShaderType type, ShaderBackend backend)
 {
+	LOG_DEBUG("Compiling shader: %s", shaderPath.c_str());
+
 	CompiledShaderData data;
 
 	std::string hlslCode;
@@ -90,7 +92,7 @@ void ShaderCompiler::CompileShader_DirectX(const std::string& hlslCode, const st
 
 	ID3DBlob* pCode;
 	ID3DBlob* pError;
-	HRESULT hr = D3DCompile2(hlslCode.c_str(), hlslCode.size(), NULL, shaderMacros.data(), D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", targets[(int)type], flags, 0, NULL, NULL, NULL, &pCode, &pError);
+	HRESULT hr = D3DCompile(hlslCode.c_str(), hlslCode.size(), NULL, shaderMacros.data(), D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", targets[(int)type], flags, 0, &pCode, &pError);
 
 	if (FAILED(hr))
 	{
@@ -99,8 +101,10 @@ void ShaderCompiler::CompileShader_DirectX(const std::string& hlslCode, const st
 		typesStr[(int)ShaderType::PIXEL_SHADER] = "PIXEL_SHADER";
 		typesStr[(int)ShaderType::COMPUTE_SHADER] = "COMPUTE_SHADER";
 
+		const std::string errorMessage = std::string((const char*)pError->GetBufferPointer(), pError->GetBufferSize());
+
 		LOG_ERROR("Failed to compile shader of type '%s'", typesStr[(int)type]);
-		LOG_ERROR("%s", std::string((const char*)pError->GetBufferPointer(), pError->GetBufferSize()).c_str());
+		LOG_ERROR("%s", errorMessage.c_str());
 
 		SAFE_RELEASE(pError);
 

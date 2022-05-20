@@ -32,6 +32,7 @@ D3D11Renderer::~D3D11Renderer()
 void D3D11Renderer::Initialize(RendererFlags flags)
 {
 	// TODO: find the dedicated graphics card for the adapter parameter
+	// TODO: debug flag & create debug layer if command line flag is present
 	HRESULT hr = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, GetDeviceFlags(flags), nullptr,
 		0, D3D11_SDK_VERSION, &m_pDevice, nullptr, &m_pContext);
 	if (FAILED(hr))

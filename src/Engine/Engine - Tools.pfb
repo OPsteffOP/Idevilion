@@ -1,7 +1,7 @@
-name: CodeMacroFinder
-project_type: Application
-build_directory: $(SolutionDir)..\..\bin\builds\Tools\CodeMacroFinder\$(Configuration)\$(Platform)\
-intermediate_directory: $(SolutionDir)..\..\bin\intermediate\Tools\CodeMacroFinder\$(Configuration)\$(Platform)\
+name: Engine
+project_type: StaticLibrary
+build_directory: $(SolutionDir)..\..\bin\builds\Engine\$(Configuration)\$(Platform)\
+intermediate_directory: $(SolutionDir)..\..\bin\intermediate\Engine\$(Configuration)\$(Platform)\
 configuration: Debug
 configuration: Release
 platform: x64
@@ -9,11 +9,10 @@ language_standard: cpp17
 warning_level: Level4
 warnings_as_errors: true
 use_pch: true
-precompiled_header_file: CodeMacroFinderPCH.h
-precompiled_source_file: CodeMacroFinderPCH.cpp
+precompiled_header_file: EnginePCH.h
+precompiled_source_file: EnginePCH.cpp
 source_extension: .cpp
 header_extension: .h
-project_dependency: Engine
 
 macro: Debug|x64 BP_CONFIGURATION_DEBUG
 macro: Release|x64 BP_CONFIGURATION_RELEASE

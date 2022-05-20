@@ -30,11 +30,16 @@ enum class name { __VA_ARGS__, _COUNT }
 #define PACK(value, decl) __pragma( pack(push, value) ) decl __pragma( pack(pop))
 #endif
 
-#define DEV_BUILD
+#if defined(BP_CONFIGURATION_DEBUG)
 #define DEV_DEBUG_BUILD
-
+#define DEV_BUILD
 #define INCLUDE_BAKING_CODE
 #define ENABLE_LEAK_DETECTION
+#elif defined(BP_CONFIGURATION_RELEASE)
+#define DEV_BUILD
+#define INCLUDE_BAKING_CODE
+#define ENABLE_LEAK_DETECTION
+#endif
 
 #define USE_TEXTURE_WIDTH -1.f
 #define USE_TEXTURE_HEIGHT -1.f

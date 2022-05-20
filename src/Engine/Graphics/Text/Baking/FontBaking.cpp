@@ -3,8 +3,6 @@
 #include "EnginePCH.h"
 #include "FontBaking.h"
 
-#ifdef INCLUDE_BAKING_CODE
-
 #define STB_TRUETYPE_IMPLEMENTATION
 #include "FontLoading.h"
 
@@ -13,6 +11,9 @@
 
 void Baking::BakeFontSDFBitmap(const std::string& fontName)
 {
+	UNREFERENCED_PARAMETER(fontName);
+
+#ifdef INCLUDE_BAKING_CODE
 	ByteStream binaryFontBitmap(new ByteStreamBinaryFileImpl(Paths::Data::DATA_DIR + Paths::Data::FONTS_DIR + fontName + Paths::Data::Extensions::BAKED_SDF_FONT_FILE, true));
 
 	std::string ttfFilePath = Paths::Data::DATA_DEV_DIR + Paths::Data::FONTS_DIR + fontName + ".ttf";
@@ -206,6 +207,5 @@ void Baking::BakeFontSDFBitmap(const std::string& fontName)
 	SAFE_DELETE(pRenderTarget);
 
 	SAFE_DELETE_ARRAY(pFileData);
-}
-
 #endif
+}

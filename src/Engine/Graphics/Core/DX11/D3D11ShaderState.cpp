@@ -6,6 +6,7 @@
 #ifdef BP_PLATFORM_WINDOWS
 
 #include "D3D11Renderer.h"
+#include "ShaderCache.h"
 
 D3D11ShaderState::D3D11ShaderState(ShaderType type, const std::string& shaderPath, const std::vector<std::string>& defines)
 	: ShaderState(type, shaderPath)
@@ -15,7 +16,7 @@ D3D11ShaderState::D3D11ShaderState(ShaderType type, const std::string& shaderPat
 #ifdef DEV_BUILD
 	m_CompiledShaderData = ShaderCompiler::GetInstance()->CompileShader(shaderPath, defines, type, ShaderBackend::DIRECTX_11);
 #else
-	// TODO: load the compiled shader here
+	m_CompiledShaderData = ShaderCache::GetInstance()->LoadShader(shaderPath, defines, ShaderBackend::DIRECTX_11);
 #endif
 
 	if (m_CompiledShaderData.pBuffer == nullptr)
